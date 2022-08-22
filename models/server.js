@@ -1,10 +1,13 @@
 const express = require("express");
+const cors = require("cors");
 const { dbConnection } = require("../database/config");
 
 class Server {
   constructor() {
     this.app = express();
     this.port = process.env.PORT;
+
+    this.authPath = "/api";
 
     //Conexion DB
     this.conectarDB();
@@ -23,12 +26,13 @@ class Server {
     }
   }
 
-  middleweres() {}
+  middleweres() {
+    this.app.use(express.json());
+    this.app.use(cors());
+  }
 
   routes() {
-    this.app.get("/", (req, res) => {
-      res.send("Hello world");
-    });
+    this.app.use(this.authPath, require("../routes/auth.routes"));
   }
 
   listen() {
