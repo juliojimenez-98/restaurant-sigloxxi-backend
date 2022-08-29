@@ -29,17 +29,13 @@ const login = async (req, res = response) => {
 
     //verificar contrasena
 
-    // const validPassword = bcryptjs.compareSync(password, usuario.password);
+    const validPassword = bcryptjs.compareSync(password, usuario.password);
 
-    // if (!validPassword) {
-    //   return res.status(400).json({
-    //     msg: "La contrasena es incorrecta",
-    //   });
-    // }
-
-    const validPassword = (password) => {
-      password = usuario.password;
-    };
+    if (!validPassword) {
+      return res.status(400).json({
+        msg: "La contrasena es incorrecta",
+      });
+    }
 
     if (!validPassword) {
       return res.status(400).json({
