@@ -1,24 +1,40 @@
 const { DataTypes } = require("sequelize");
 const dbConnection = require("../database/config");
+const Rol = require("./rol");
 
-const Usuarios = dbConnection.dbConnection.define("usuario", {
-  // Model attributes are defined here
-  nombre: {
-    type: DataTypes.STRING,
+const Usuario = dbConnection.dbConnection.define(
+  "usuario",
+  {
+    // Model attributes are defined here
+    id_user: {
+      type: DataTypes.INTEGER,
+      primaryKey: true,
+    },
+    email: {
+      type: DataTypes.STRING,
+    },
+    password: {
+      type: DataTypes.STRING,
+    },
+    rolidrol: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Rol", // 'fathers' refers to table name
+        key: "id_rol", // 'id' refers to column name in fathers table
+      },
+    },
+    estado: {
+      type: DataTypes.BOOLEAN,
+      defaultValue: 2,
+    },
   },
-  apellido: {
-    type: DataTypes.STRING,
-  },
-  rut: {
-    type: DataTypes.STRING,
-  },
-  password: {
-    type: DataTypes.STRING,
-  },
-  estado: {
-    type: DataTypes.BOOLEAN,
-    defaultValue: 0,
-  },
-});
+  {
+    freezeTableName: true,
+  }
+);
 
-module.exports = Usuarios;
+Usuario.hasMany(Rol, {
+  foreignKey: "id_rol",
+}); // Set one to many relationship
+
+module.exports = Usuario;

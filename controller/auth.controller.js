@@ -1,23 +1,23 @@
 const { response } = require("express");
 const bcryptjs = require("bcryptjs");
 
-const Usuarios = require("../models/usuario");
+const Usuario = require("../models/usuario");
 
 const { generateJWT } = require("../helpers/generar-jwt");
 
 const login = async (req, res = response) => {
-  const { rut, password } = req.body;
+  const { email, password } = req.body;
 
   try {
-    const usuario = await Usuarios.findOne({
+    const usuario = await Usuario.findOne({
       where: {
-        rut: rut,
+        email: email,
       },
     });
 
     if (!usuario) {
       return res.status(404).json({
-        msg: `No existe un usuario con ese rut ${rut}`,
+        msg: `No existe un usuario con ese correo ${email}`,
       });
     }
 

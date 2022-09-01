@@ -1,33 +1,42 @@
 const { response } = require("express");
-const Usuarios = require("../models/usuario");
+const Usuario = require("../models/usuario");
 const bcryptjs = require("bcryptjs");
+const Rol = require("../models/rol");
+
+obtenerUsuarios = async (req, res = response) => {
+  const usuarios = await Usuario.findAll({
+    include: Rol,
+  });
+
+  res.json({ usuarios });
+};
 
 const crearUsuario = async (req, res = response) => {
   const { body } = req;
   try {
-    const rutExists = await Usuarios.findOne({
+    const emailExists = await Usuario.findOne({
       where: {
-        rut: body.rut,
+        email: body.email,
       },
     });
 
-    if (rutExists) {
+    if (emailExists) {
       return res.status(404).json({
-        msg: `El usuario con rut: ${body.rut} ya esta registrado`,
+        msg: `El usuario con email: ${body.email} ya esta registrado`,
       });
     }
 
-    const usuarios = new Usuarios(body);
+    const usuario = new Usuario(body);
 
-    body.password = body.rut;
+    body.password = body.email.split("@")[0];
 
     //Encriptar contraseña
     const salt = bcryptjs.genSaltSync();
-    usuarios.password = bcryptjs.hashSync(body.password, salt);
+    usuario.password = bcryptjs.hashSync(body.password, salt);
 
-    await usuarios.save();
+    await usuario.save();
 
-    res.json(usuarios);
+    res.json(usuario);
   } catch (error) {
     console.log(error);
     res.status(500).json({
@@ -38,4 +47,5 @@ const crearUsuario = async (req, res = response) => {
 
 module.exports = {
   crearUsuario,
+  obtenerUsuarios,
 };
