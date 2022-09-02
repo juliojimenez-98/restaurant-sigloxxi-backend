@@ -26,6 +26,18 @@ const crearUsuario = async (req, res = response) => {
       });
     }
 
+    const rolExists = await Rol.findOne({
+      where: {
+        id_rol: body.id_rol,
+      },
+    });
+
+    if (!rolExists) {
+      return res.status(404).json({
+        msg: `El rol : ${body.id_rol} No existe`,
+      });
+    }
+
     const usuario = new Usuario(body);
 
     body.password = body.email.split("@")[0];

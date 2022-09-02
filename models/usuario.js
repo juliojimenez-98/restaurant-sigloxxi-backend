@@ -16,12 +16,20 @@ const Usuario = dbConnection.dbConnection.define(
     password: {
       type: DataTypes.STRING,
     },
-    rolidrol: {
+    id_rol: {
+      type: DataTypes.STRING,
       type: DataTypes.INTEGER,
       references: {
         model: "Rol", // 'fathers' refers to table name
         key: "id_rol", // 'id' refers to column name in fathers table
       },
+
+      // get() {
+      //   return this.getDataValue("id_rol").split(";");
+      // },
+      // set(val) {
+      //   this.setDataValue("id_rol", val.join(";"));
+      // },
     },
     estado: {
       type: DataTypes.BOOLEAN,
@@ -33,6 +41,7 @@ const Usuario = dbConnection.dbConnection.define(
   }
 );
 
+Usuario.belongsTo(Rol, { foreignKey: "id_rol" });
 Usuario.hasMany(Rol, {
   foreignKey: "id_rol",
 }); // Set one to many relationship
