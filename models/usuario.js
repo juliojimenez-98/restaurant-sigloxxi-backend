@@ -17,19 +17,20 @@ const Usuario = dbConnection.dbConnection.define(
       type: DataTypes.STRING,
     },
     id_rol: {
-      type: DataTypes.STRING,
       type: DataTypes.INTEGER,
       references: {
         model: "Rol", // 'fathers' refers to table name
         key: "id_rol", // 'id' refers to column name in fathers table
       },
-
-      // get() {
-      //   return this.getDataValue("id_rol").split(";");
-      // },
-      // set(val) {
-      //   this.setDataValue("id_rol", val.join(";"));
-      // },
+    },
+    rolArray: {
+      type: DataTypes.STRING,
+      get() {
+        return this.getDataValue("rolArray").split(";");
+      },
+      set(val) {
+        this.setDataValue("rolArray", val.join(";"));
+      },
     },
     estado: {
       type: DataTypes.BOOLEAN,

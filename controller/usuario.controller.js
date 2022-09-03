@@ -7,6 +7,17 @@ obtenerUsuarios = async (req, res = response) => {
   const usuarios = await Usuario.findAll({
     include: Rol,
   });
+};
+
+obtenerRoles = async (req, res = response) => {
+  const usuarios = await Usuario.findAll({ raw: true });
+
+  console.log(
+    usuarios.map((user) => {
+      var array = user.rolArray.split(",");
+      console.log(array);
+    })
+  );
 
   res.json({ usuarios });
 };
@@ -60,4 +71,5 @@ const crearUsuario = async (req, res = response) => {
 module.exports = {
   crearUsuario,
   obtenerUsuarios,
+  obtenerRoles,
 };
