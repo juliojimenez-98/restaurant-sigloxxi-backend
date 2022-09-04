@@ -7,18 +7,24 @@ obtenerUsuarios = async (req, res = response) => {
   const usuarios = await Usuario.findAll({
     include: Rol,
   });
+  res.json({ usuarios });
 };
 
 obtenerRoles = async (req, res = response) => {
   const usuarios = await Usuario.findAll({ raw: true });
-
-  console.log(
-    usuarios.map((user) => {
-      var array = user.rolArray.split(",");
-      console.log(array);
-    })
-  );
-
+  var isAdminRole = false;
+  usuarios.map((user) => {
+    var array = user.rolArray.split(",");
+    console.log(array);
+    if (array.find((element) => element === "1")) {
+      isAdminRole = true;
+      console.log("correcto");
+    }
+    array.find((element) => console.log(element, "prueba"));
+    console.log(isAdminRole);
+  });
+  const rolesDelUser = await Rol.findByPk(1);
+  console.log(rolesDelUser);
   res.json({ usuarios });
 };
 
