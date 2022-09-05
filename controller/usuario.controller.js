@@ -11,21 +11,24 @@ obtenerUsuarios = async (req, res = response) => {
 };
 
 obtenerRoles = async (req, res = response) => {
-  const usuarios = await Usuario.findAll({ raw: true });
-  var isAdminRole = false;
-  usuarios.map((user) => {
-    var array = user.rolArray.split(",");
-    console.log(array);
-    if (array.find((element) => element === "1")) {
-      isAdminRole = true;
-      console.log("correcto");
-    }
-    array.find((element) => console.log(element, "prueba"));
-    console.log(isAdminRole);
-  });
-  const rolesDelUser = await Rol.findByPk(1);
-  console.log(rolesDelUser);
-  res.json({ usuarios });
+  const roles = await Rol.findAll({ raw: true });
+
+  // const usuarios = await Usuario.findAll({ raw: true });
+  // var isAdminRole = false;
+  // usuarios.map((user) => {
+  //   var array = user.rolArray.split(",");
+  //   console.log(array);
+  //   if (array.find((element) => element === "1")) {
+  //     isAdminRole = true;
+  //     console.log("correcto");
+  //   }
+  //   array.find((element) => console.log(element, "prueba"));
+  //   console.log(isAdminRole);
+  // });
+  // const rolesDelUser = await Rol.findByPk(1);
+  // console.log(rolesDelUser);
+  // res.json({ usuarios });
+  res.json({ roles });
 };
 
 const crearUsuario = async (req, res = response) => {
