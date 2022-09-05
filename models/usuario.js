@@ -10,11 +10,14 @@ const Usuario = dbConnection.dbConnection.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
+    nombre: { type: DataTypes.STRING, allowNull: false },
+    appa: { type: DataTypes.STRING, allowNull: false },
     email: {
       type: DataTypes.STRING,
     },
     password: {
       type: DataTypes.STRING,
+      allowNull: false,
     },
     id_rol: {
       type: DataTypes.INTEGER,
