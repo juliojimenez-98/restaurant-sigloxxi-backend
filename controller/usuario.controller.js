@@ -68,7 +68,7 @@ const crearUsuario = async (req, res = response) => {
 
     await usuario.save();
 
-    res.json(usuario);
+    res.status(200).json({ msg: "ok", usuario });
   } catch (error) {
     console.log(error);
     res.status(500).json({
