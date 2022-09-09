@@ -77,8 +77,53 @@ const crearUsuario = async (req, res = response) => {
   }
 };
 
+const updatePassNewUser = async (req = request, res = response) => {
+  const id = req.params.id;
+  const { password } = req.body;
+  const idInt = parseInt(id);
+
+  const findUser = await Usuario.findOne({
+    raw: true,
+    where: {
+      id_user: idInt,
+    },
+  });
+
+  if (!findUser) {
+    res.status(404).send({
+      status: "error",
+      msg: `El usuario con id ${idInt} no existe`,
+    });
+  }
+
+  const update = {};
+  const json = JSON.parse(findUser.rolArray);
+  const data = Object.values(json);
+  console.log([...data]);
+
+  if (password) update.password = password;
+
+  const updateUser = await Usuario.update(update, {
+    where: {
+      id_user: idInt,
+    },
+  });
+  if (!updateUser) {
+    res.status(404).send({
+      status: "error",
+      msg: "Error al actualizar",
+    });
+  }
+
+  res.status(201).send({
+    status: "exito",
+    updateUser,
+  });
+};
+
 module.exports = {
   crearUsuario,
   obtenerUsuarios,
   obtenerRoles,
+  updatePassNewUser,
 };

@@ -4,6 +4,7 @@ const {
   crearUsuario,
   obtenerUsuarios,
   obtenerRoles,
+  updatePassNewUser,
 } = require("../controller/usuario.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
 
@@ -21,6 +22,8 @@ router.post(
   ],
   crearUsuario
 );
+
+router.put("/usuario/:id", updatePassNewUser);
 //Obtener todos los usuarios
 router.get("/usuarios", obtenerUsuarios);
 router.get("/roles", obtenerRoles);

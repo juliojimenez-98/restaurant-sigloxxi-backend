@@ -25,14 +25,15 @@ const Usuario = dbConnection.dbConnection.define(
         model: "Rol", // 'fathers' refers to table name
         key: "id_rol", // 'id' refers to column name in fathers table
       },
+      allowNull: true,
     },
     rolArray: {
       type: DataTypes.STRING,
-      get() {
-        return this.getDataValue("rolArray").split(";");
+      get: function () {
+        return JSON.parse(this.getDataValue("rolArray"));
       },
-      set(val) {
-        this.setDataValue("rolArray", val.join(";"));
+      set: function (val) {
+        return this.setDataValue("rolArray", JSON.stringify(val));
       },
     },
     estado: {
