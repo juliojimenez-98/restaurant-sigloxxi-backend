@@ -23,7 +23,7 @@ router.post(
   crearUsuario
 );
 
-router.put("/usuario/:id", updatePassNewUser);
+router.put("/changepass/:id", updatePassNewUser);
 //Obtener todos los usuarios
 router.get("/usuarios", obtenerUsuarios);
 router.get("/roles", obtenerRoles);

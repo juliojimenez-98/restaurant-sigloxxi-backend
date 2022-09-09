@@ -1,4 +1,4 @@
-const { DataTypes } = require("sequelize");
+const { DataTypes, or } = require("sequelize");
 const dbConnection = require("../database/config");
 const Rol = require("./rol");
 
@@ -30,10 +30,14 @@ const Usuario = dbConnection.dbConnection.define(
     rolArray: {
       type: DataTypes.STRING,
       get: function () {
-        return JSON.parse(this.getDataValue("rolArray"));
+        if (typeof this.getDataValue("rolArray") === "string") {
+          return JSON.parse(this.getDataValue("rolArray"));
+        }
       },
       set: function (val) {
-        return this.setDataValue("rolArray", JSON.stringify(val));
+        if (typeof val === "object") {
+          return this.setDataValue("rolArray", JSON.stringify(val));
+        }
       },
     },
     estado: {

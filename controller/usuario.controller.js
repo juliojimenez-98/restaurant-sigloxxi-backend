@@ -97,17 +97,21 @@ const updatePassNewUser = async (req = request, res = response) => {
   }
 
   const update = {};
-  const json = JSON.parse(findUser.rolArray);
-  const data = Object.values(json);
-  console.log([...data]);
+  if (findUser.estado === 2) {
+    update.estado = 1;
+  }
 
   if (password) update.password = password;
+
+  const salt = bcryptjs.genSaltSync();
+  update.password = bcryptjs.hashSync(password, salt);
 
   const updateUser = await Usuario.update(update, {
     where: {
       id_user: idInt,
     },
   });
+
   if (!updateUser) {
     res.status(404).send({
       status: "error",
