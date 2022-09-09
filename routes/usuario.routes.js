@@ -5,6 +5,8 @@ const {
   obtenerUsuarios,
   obtenerRoles,
   updatePassNewUser,
+  obtenerUsuarioPorId,
+  actualizarUsuario,
 } = require("../controller/usuario.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
 
@@ -23,9 +25,20 @@ router.post(
   crearUsuario
 );
 
-router.put("/changepass/:id", updatePassNewUser);
+router.put(
+  "/usuario/:id",
+  [check("email", "El correo no es valido").isEmail(), validarCampos],
+  actualizarUsuario
+);
+
+router.put(
+  "/changepass/:id",
+  [check("nombre", "El nombre es obligatorio").not().isEmpty(), validarCampos],
+  updatePassNewUser
+);
 //Obtener todos los usuarios
 router.get("/usuarios", obtenerUsuarios);
+router.get("/usuario/:id", obtenerUsuarioPorId);
 router.get("/roles", obtenerRoles);
 
 module.exports = router;

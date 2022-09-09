@@ -10,24 +10,25 @@ obtenerUsuarios = async (req, res = response) => {
   res.json({ usuarios });
 };
 
+obtenerUsuarioPorId = async (req, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+
+  const findUser = await Usuario.findOne({
+    raw: true,
+    where: {
+      id_user: idInt,
+    },
+    attributes: { exclude: ["password"] },
+  });
+
+  res.status(200).send({
+    findUser,
+  });
+};
+
 obtenerRoles = async (req, res = response) => {
   const roles = await Rol.findAll({ raw: true });
-
-  // const usuarios = await Usuario.findAll({ raw: true });
-  // var isAdminRole = false;
-  // usuarios.map((user) => {
-  //   var array = user.rolArray.split(",");
-  //   console.log(array);
-  //   if (array.find((element) => element === "1")) {
-  //     isAdminRole = true;
-  //     console.log("correcto");
-  //   }
-  //   array.find((element) => console.log(element, "prueba"));
-  //   console.log(isAdminRole);
-  // });
-  // const rolesDelUser = await Rol.findByPk(1);
-  // console.log(rolesDelUser);
-  // res.json({ usuarios });
   res.json({ roles });
 };
 
@@ -75,6 +76,44 @@ const crearUsuario = async (req, res = response) => {
       msg: "Error en el servidor",
     });
   }
+};
+
+const actualizarUsuario = async (req = request, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+
+  const findUser = await Usuario.findOne({
+    raw: true,
+    where: {
+      id_user: idInt,
+    },
+  });
+
+  const update = {};
+
+  if (req.body.password) update.password = req.body.password;
+  if (req.body.estado) update.estado = req.body.estado;
+  if (req.body.email) update.email = req.body.email;
+  if (req.body.nombre) update.nombre = req.body.nombre;
+  if (req.body.appa) update.appa = req.body.appa;
+  if (req.body.rolArray) update.rolArray = req.body.rolArray;
+  if (req.body.id_rol) update.id_rol = req.body.id_rol;
+
+  if (req.body.password) {
+    const salt = bcryptjs.genSaltSync();
+    update.password = bcryptjs.hashSync(req.body.password, salt);
+  }
+
+  const updateUser = await Usuario.update(update, {
+    where: {
+      id_user: idInt,
+    },
+  });
+
+  res.status(201).send({
+    updateUser,
+    update,
+  });
 };
 
 const updatePassNewUser = async (req = request, res = response) => {
@@ -130,4 +169,6 @@ module.exports = {
   obtenerUsuarios,
   obtenerRoles,
   updatePassNewUser,
+  obtenerUsuarioPorId,
+  actualizarUsuario,
 };
