@@ -33,10 +33,7 @@ router.put(
 
 router.put(
   "/changepass/:id",
-  [
-    check("password", "La password es obligatoria").not().isEmpty(),
-    validarCampos,
-  ],
+  [check("nombre", "El nombre es obligatorio").not().isEmpty(), validarCampos],
   updatePassNewUser
 );
 //Obtener todos los usuarios
