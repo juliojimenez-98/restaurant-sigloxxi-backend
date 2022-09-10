@@ -34,7 +34,7 @@ router.put(
 router.put(
   "/changepass/:id",
   [
-    check("password", "La password es obligatoria").not().isEmpty(),
+    check("password", "La contrasena es obligatoria").not().isEmpty(),
     validarCampos,
   ],
   updatePassNewUser
