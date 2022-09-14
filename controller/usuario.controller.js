@@ -168,6 +168,16 @@ const updatePassNewUser = async (req = request, res = response) => {
   });
 };
 
+const eliminarUsuario = async (req, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+  const usuario = await Usuario.destroy({ where: { id_user: idInt } });
+  res.status(200).send({
+    msg: `La mesa fue eliminada con exito`,
+    usuario,
+  });
+};
+
 module.exports = {
   crearUsuario,
   obtenerUsuarios,
@@ -175,4 +185,5 @@ module.exports = {
   updatePassNewUser,
   obtenerUsuarioPorId,
   actualizarUsuario,
+  eliminarUsuario,
 };

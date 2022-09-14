@@ -7,6 +7,7 @@ const {
   updatePassNewUser,
   obtenerUsuarioPorId,
   actualizarUsuario,
+  eliminarUsuario,
 } = require("../controller/usuario.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
 
@@ -35,6 +36,8 @@ router.put(
   ],
   updatePassNewUser
 );
+
+router.delete("/usuario/:id", eliminarUsuario);
 //Obtener todos los usuarios
 router.get("/usuarios", obtenerUsuarios);
 router.get("/usuario/:id", obtenerUsuarioPorId);
