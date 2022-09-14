@@ -21,9 +21,13 @@ obtenerUsuarioPorId = async (req, res = response) => {
     },
     attributes: { exclude: ["password"] },
   });
+  if (findUser) {
+    var rolArrayObject = JSON.parse(findUser.rolArray);
+  }
 
   res.status(200).send({
     findUser,
+    rolArrayObject,
   });
 };
 

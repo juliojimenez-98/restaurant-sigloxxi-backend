@@ -25,11 +25,7 @@ router.post(
   crearUsuario
 );
 
-router.put(
-  "/usuario/:id",
-  [check("email", "El correo no es valido").isEmail(), validarCampos],
-  actualizarUsuario
-);
+router.put("/usuario/:id", actualizarUsuario);
 
 router.put(
   "/changepass/:id",
