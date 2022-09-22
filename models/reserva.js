@@ -1,6 +1,6 @@
 const { DataTypes } = require("sequelize");
 const dbConnection = require("../database/config");
-const Usuario = require("./usuario");
+const Cliente = require("./cliente");
 
 const Reserva = dbConnection.dbConnection.define(
   "reserva",
@@ -22,7 +22,10 @@ const Reserva = dbConnection.dbConnection.define(
     },
     id_cliente: {
       type: DataTypes.INTEGER,
-      defaultValue: 0,
+      references: {
+        model: "Cliente", // 'fathers' refers to table name
+        key: "id_cliente", // 'id' refers to column name in fathers table
+      },
     },
     id_mesa: {
       type: DataTypes.INTEGER,
@@ -33,5 +36,8 @@ const Reserva = dbConnection.dbConnection.define(
     freezeTableName: true,
   }
 );
+
+Cliente.hasOne(Reserva, { foreignKey: "id_cliente" });
+Reserva.belongsTo(Cliente, { foreignKey: "id_cliente" });
 
 module.exports = Reserva;

@@ -11,6 +11,7 @@ class Server {
     this.usuariosPath = "/api/usuarios";
     this.mesasPath = "/api/mesas";
     this.reservaPath = "/api/reserva";
+    this.clientesPath = "/api/clientes";
 
     //Conexion DB
     this.conectarDB();
@@ -39,6 +40,7 @@ class Server {
     this.app.use(this.usuariosPath, require("../routes/usuario.routes"));
     this.app.use(this.mesasPath, require("../routes/mesas.routes"));
     this.app.use(this.reservaPath, require("../routes/reserva.routes"));
+    this.app.use(this.clientesPath, require("../routes/cliente.routes"));
   }
 
   listen() {

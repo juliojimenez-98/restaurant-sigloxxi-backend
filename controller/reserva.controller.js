@@ -3,6 +3,19 @@ const { Op } = require("sequelize");
 const { body } = require("express-validator");
 const Mesa = require("../models/mesa");
 const Reserva = require("../models/reserva");
+const Cliente = require("../models/cliente");
+
+const obtenerReservas = async (req, res = response) => {
+  try {
+    const reservas = await Reserva.findAll({ include: Cliente });
+    res.json({ reservas });
+  } catch (error) {
+    res.status(500).send({
+      error,
+    });
+    console.log(error);
+  }
+};
 
 const crearReserva = async (req, res = response) => {
   const { body } = req;
@@ -18,6 +31,18 @@ const crearReserva = async (req, res = response) => {
   if (mesaDisp) {
     try {
       const { body } = req;
+
+      const clienteExiste = await Cliente.findOne({
+        where: {
+          id_cliente: body.id_cliente,
+        },
+      });
+
+      if (!clienteExiste) {
+        return res.status(404).json({
+          msg: `El cliente : ${body.id_cliente} No existe`,
+        });
+      }
 
       body.id_mesa = mesaDisp.id_mesa;
 
@@ -54,4 +79,5 @@ const crearReserva = async (req, res = response) => {
 
 module.exports = {
   crearReserva,
+  obtenerReservas,
 };
