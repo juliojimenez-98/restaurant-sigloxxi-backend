@@ -43,7 +43,7 @@ const actualizarMesa = async (req, res = response) => {
 
   if (!findMesa) {
     res.status(404).send({
-      msg: `No existe el usuario con el id ${idInt}`,
+      msg: `No existe la mesa con el id ${idInt}`,
     });
   }
 
