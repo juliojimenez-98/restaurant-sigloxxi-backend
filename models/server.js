@@ -8,6 +8,11 @@ class Server {
     this.port = process.env.PORT;
 
     this.authPath = "/api";
+    this.buscar = "/api/buscar";
+    this.clientesPath = "/api/clientes";
+    this.mesasPath = "/api/mesas";
+    this.ingredientesPath = "/api/ingredientes";
+    this.reservaPath = "/api/reserva";
     this.usuariosPath = "/api/usuarios";
 
     //Conexion DB
@@ -34,7 +39,15 @@ class Server {
 
   routes() {
     this.app.use(this.authPath, require("../routes/auth.routes"));
+    this.app.use(this.buscar, require("../routes/buscar.routes"));
+    this.app.use(this.clientesPath, require("../routes/cliente.routes"));
+    this.app.use(this.mesasPath, require("../routes/mesas.routes"));
+    this.app.use(this.reservaPath, require("../routes/reserva.routes"));
     this.app.use(this.usuariosPath, require("../routes/usuario.routes"));
+    this.app.use(
+      this.ingredientesPath,
+      require("../routes/ingrediente.routes")
+    );
   }
 
   listen() {
