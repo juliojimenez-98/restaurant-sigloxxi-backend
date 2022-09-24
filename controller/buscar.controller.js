@@ -1,8 +1,10 @@
 const { response } = require("express");
 const { Op } = require("sequelize");
+const Ingredientes = require("../models/ingredientes");
+const Mesa = require("../models/mesa");
 const Usuario = require("../models/usuario");
 
-const tablasExistentes = ["bodegas", "productos", "role", "usuarios"];
+const tablasExistentes = ["mesas", "ingredientes", "rol", "usuarios"];
 
 const buscarUsuarios = async (termino = "", res = response) => {
   const usuarios = await Usuario.findAll({
@@ -19,6 +21,36 @@ const buscarUsuarios = async (termino = "", res = response) => {
   });
 };
 
+const buscarIngredientes = async (termino = "", res = response) => {
+  const ingredientes = await Ingredientes.findAll({
+    where: {
+      [Op.or]: [
+        { nombre: { [Op.like]: "%" + termino + "%" } },
+        { stock: { [Op.like]: "%" + termino + "%" } },
+      ],
+    },
+  });
+
+  res.json({
+    results: ingredientes,
+  });
+};
+
+const buscarMesas = async (termino = "", res = response) => {
+  const mesas = await Mesa.findAll({
+    where: {
+      [Op.or]: [
+        { cant_sillas: { [Op.like]: "%" + termino + "%" } },
+        { id_mesa: { [Op.like]: "%" + termino + "%" } },
+      ],
+    },
+  });
+
+  res.json({
+    results: mesas,
+  });
+};
+
 const buscar = (req, res = response) => {
   const { tabla, termino } = req.params;
 
@@ -31,11 +63,11 @@ const buscar = (req, res = response) => {
     case "usuarios":
       buscarUsuarios(termino, res);
       break;
-    case "productos":
-      buscarProductos(termino, res);
+    case "ingredientes":
+      buscarIngredientes(termino, res);
       break;
-    case "bodegas":
-      buscarBodegas(termino, res);
+    case "mesas":
+      buscarMesas(termino, res);
       break;
 
     default:
