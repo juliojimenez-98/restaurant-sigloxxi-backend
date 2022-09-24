@@ -1,6 +1,18 @@
 const { response } = require("express");
 const Ingredientes = require("../models/ingredientes");
 
+const obtenerIngredientes = async (req, res = response) => {
+  try {
+    const ingrediente = await Ingredientes.findAll({ raw: true });
+    res.json({ ingrediente });
+  } catch (error) {
+    res.status(500).send({
+      error,
+    });
+    console.log(error);
+  }
+};
+
 const crearIngrediente = async (req, res = response) => {
   try {
     const { body } = req;
