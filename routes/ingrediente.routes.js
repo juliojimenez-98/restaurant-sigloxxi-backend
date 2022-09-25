@@ -3,11 +3,14 @@ const { check } = require("express-validator");
 const {
   crearIngrediente,
   actualizarIngrediente,
+  obtenerIngredientes,
 } = require("../controller/ingredientes.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
+
+router.get("/ingredientes", obtenerIngredientes);
 
 router.post(
   "/ingrediente",

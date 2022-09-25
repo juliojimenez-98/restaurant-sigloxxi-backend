@@ -12,6 +12,7 @@ class Server {
     this.clientesPath = "/api/clientes";
     this.mesasPath = "/api/mesas";
     this.ingredientesPath = "/api/ingredientes";
+    this.recetasPath = "/api/recetas";
     this.reservaPath = "/api/reserva";
     this.usuariosPath = "/api/usuarios";
 
@@ -42,6 +43,7 @@ class Server {
     this.app.use(this.buscar, require("../routes/buscar.routes"));
     this.app.use(this.clientesPath, require("../routes/cliente.routes"));
     this.app.use(this.mesasPath, require("../routes/mesas.routes"));
+    this.app.use(this.recetasPath, require("../routes/receta.routes"));
     this.app.use(this.reservaPath, require("../routes/reserva.routes"));
     this.app.use(this.usuariosPath, require("../routes/usuario.routes"));
     this.app.use(

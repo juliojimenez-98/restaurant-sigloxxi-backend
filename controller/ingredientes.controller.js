@@ -71,4 +71,5 @@ const actualizarIngrediente = async (req, res = response) => {
 module.exports = {
   crearIngrediente,
   actualizarIngrediente,
+  obtenerIngredientes,
 };
