@@ -1,11 +1,15 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
 
-const { crearReceta } = require("../controller/receta.controller");
+const {
+  crearReceta,
+  obtenerRecetas,
+} = require("../controller/receta.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
+router.get("/recetas", obtenerRecetas);
 
 router.post(
   "/receta",
