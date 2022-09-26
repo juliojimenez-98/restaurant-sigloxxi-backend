@@ -1,6 +1,18 @@
 const { response } = require("express");
 const Receta = require("../models/receta");
 
+const obtenerRecetas = async (req, res = response) => {
+  try {
+    const recetas = await Receta.findAll({ raw: true });
+    res.json({ recetas });
+  } catch (error) {
+    res.status(500).send({
+      error,
+    });
+    console.log(error);
+  }
+};
+
 const crearReceta = async (req, res = response) => {
   try {
     const { body } = req;
@@ -20,4 +32,5 @@ const crearReceta = async (req, res = response) => {
 
 module.exports = {
   crearReceta,
+  obtenerRecetas,
 };
