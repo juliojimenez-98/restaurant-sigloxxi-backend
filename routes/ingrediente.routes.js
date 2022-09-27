@@ -4,6 +4,8 @@ const {
   crearIngrediente,
   actualizarIngrediente,
   obtenerIngredientes,
+  obtenerIngredientePorId,
+  eliminarIngrediente,
 } = require("../controller/ingredientes.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -11,6 +13,8 @@ const { validarCampos } = require("../middlewares/validar-campos");
 const router = Router();
 
 router.get("/ingredientes", obtenerIngredientes);
+
+router.get("/ingrediente/:id", obtenerIngredientePorId);
 
 router.post(
   "/ingrediente",
@@ -28,4 +32,6 @@ router.post(
 );
 
 router.put("/ingrediente/:id", actualizarIngrediente);
+
+router.delete("/ingrediente/:id", eliminarIngrediente);
 module.exports = router;
