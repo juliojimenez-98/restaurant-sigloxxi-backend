@@ -1,6 +1,21 @@
 const { response } = require("express");
 const Ingredientes = require("../models/ingredientes");
 
+const obtenerIngredientePorId = async (req, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+
+  const findIngrediente = await Ingredientes.findOne({
+    raw: true,
+    where: {
+      id_ing: idInt,
+    },
+  });
+  res.status(200).json({
+    findIngrediente,
+  });
+};
+
 const obtenerIngredientes = async (req, res = response) => {
   try {
     const ingrediente = await Ingredientes.findAll({ raw: true });
@@ -68,8 +83,19 @@ const actualizarIngrediente = async (req, res = response) => {
   });
 };
 
+const eliminarIngrediente = async (req, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+  const ingrediente = await Ingredientes.destroy({ where: { id_ing: idInt } });
+  res.status(200).send({
+    msg: `El ingrediente fue eliminado con exito`,
+  });
+};
+
 module.exports = {
   crearIngrediente,
   actualizarIngrediente,
   obtenerIngredientes,
+  obtenerIngredientePorId,
+  eliminarIngrediente,
 };
