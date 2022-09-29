@@ -9,15 +9,14 @@ const obtenerRecetas = async (req, res = response) => {
       return (map = JSON.parse(e.ingredientes));
     });
 
-    recetas.map((e) => {
-      return (e.ingredientes = toString(map));
-    });
-
-    console.log();
     const ingredientes = await Ingredientes.findAll({
       where: {
         id_ing: map,
       },
+    });
+
+    recetas.map((e) => {
+      return (e.ingredientes = ingredientes);
     });
     res.json({ recetas });
   } catch (error) {
