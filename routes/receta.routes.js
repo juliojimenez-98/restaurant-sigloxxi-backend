@@ -4,6 +4,9 @@ const { check } = require("express-validator");
 const {
   crearReceta,
   obtenerRecetas,
+  actualizarReceta,
+  eliminarReceta,
+  obtenerRecetaPorId,
 } = require("../controller/receta.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -25,5 +28,9 @@ router.post(
   ],
   crearReceta
 );
+
+router.get("/receta/:id", obtenerRecetaPorId);
+router.put("/receta/:id", actualizarReceta);
+router.delete("/receta/:id", eliminarReceta);
 
 module.exports = router;
