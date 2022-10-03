@@ -35,9 +35,22 @@ const obtenerRecetaPorId = async (req, res = response) => {
 
 const crearReceta = async (req, res = response) => {
   try {
-    const { body } = req;
+    const { ingredientes, nombre_prep, id_ing, tiempo_prep, prep } = req.body;
 
-    const receta = new Receta(body);
+    let ingredientesTransformacion = [];
+    const ings = await Ingredientes.findAll({
+      where: { id_ing: ingredientes },
+    });
+    console.log(ings);
+    ingredientesTransformacion.push(ings);
+
+    const receta = new Receta({
+      ingredientes: ingredientesTransformacion,
+      nombre_prep,
+      id_ing,
+      tiempo_prep,
+      prep,
+    });
 
     await receta.save();
 
