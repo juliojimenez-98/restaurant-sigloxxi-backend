@@ -21,7 +21,6 @@ const Receta = dbConnection.dbConnection.define(
     },
     ingredientes: {
       type: DataTypes.STRING,
-      allowNull: false,
       get: function () {
         if (typeof this.getDataValue("ingredientes") === "string") {
           return JSON.parse(this.getDataValue("ingredientes"));

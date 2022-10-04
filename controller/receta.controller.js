@@ -4,20 +4,8 @@ const Ingredientes = require("../models/ingredientes");
 
 const obtenerRecetas = async (req, res = response) => {
   try {
-    const recetas = await Receta.findAll({ raw: true });
-    recetas.map((e) => {
-      return (map = JSON.parse(e.ingredientes));
-    });
+    const recetas = await Receta.findAll();
 
-    const ingredientes = await Ingredientes.findAll({
-      where: {
-        id_ing: map,
-      },
-    });
-
-    recetas.map((e) => {
-      return (e.ingredientes = ingredientes);
-    });
     res.json({ recetas });
   } catch (error) {
     res.status(500).send({
@@ -47,9 +35,20 @@ const obtenerRecetaPorId = async (req, res = response) => {
 
 const crearReceta = async (req, res = response) => {
   try {
-    const { body } = req;
+    const { ingredientes, nombre_prep, id_ing, tiempo_prep, prep } = req.body;
 
-    const receta = new Receta(body);
+    const ings = await Ingredientes.findAll({
+      where: { id_ing: ingredientes },
+    });
+
+    const receta = new Receta({
+      ingredientes: ings,
+      nombre_prep,
+      id_ing,
+      tiempo_prep,
+      prep,
+    });
+    console.log(typeof ings);
 
     await receta.save();
 
