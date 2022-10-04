@@ -4,7 +4,7 @@ const Ingredientes = require("../models/ingredientes");
 
 const obtenerRecetas = async (req, res = response) => {
   try {
-    const recetas = await Receta.findAll({ raw: true });
+    const recetas = await Receta.findAll();
 
     res.json({ recetas });
   } catch (error) {
@@ -37,20 +37,18 @@ const crearReceta = async (req, res = response) => {
   try {
     const { ingredientes, nombre_prep, id_ing, tiempo_prep, prep } = req.body;
 
-    let ingredientesTransformacion = [];
     const ings = await Ingredientes.findAll({
       where: { id_ing: ingredientes },
     });
-    console.log(ings);
-    ingredientesTransformacion.push(ings);
 
     const receta = new Receta({
-      ingredientes: ingredientesTransformacion,
+      ingredientes: ings,
       nombre_prep,
       id_ing,
       tiempo_prep,
       prep,
     });
+    console.log(typeof ings);
 
     await receta.save();
 
