@@ -16,6 +16,7 @@ class Server {
     this.recetasPath = "/api/recetas";
     this.reservaPath = "/api/reserva";
     this.usuariosPath = "/api/usuarios";
+    this.proveedoresPath = "/api/proveedores";
 
     //Conexion DB
     this.conectarDB();
@@ -48,10 +49,8 @@ class Server {
     this.app.use(this.recetasPath, require("../routes/receta.routes"));
     this.app.use(this.reservaPath, require("../routes/reserva.routes"));
     this.app.use(this.usuariosPath, require("../routes/usuario.routes"));
-    this.app.use(
-      this.ingredientesPath,
-      require("../routes/ingrediente.routes")
-    );
+    this.app.use(this.ingredientesPath, require("../routes/ingrediente.routes"));
+    this.app.use(this.proveedoresPath, require("../routes/proveedor.routes"));
   }
 
   listen() {
