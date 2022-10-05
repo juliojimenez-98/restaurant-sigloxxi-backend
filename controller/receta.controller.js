@@ -35,7 +35,8 @@ const obtenerRecetaPorId = async (req, res = response) => {
 
 const crearReceta = async (req, res = response) => {
   try {
-    const { ingredientes, nombre_prep, id_ing, tiempo_prep, prep } = req.body;
+    const { ingredientes, nombre_prep, id_ing, tiempo_prep, prep, tipo } =
+      req.body;
 
     const ings = await Ingredientes.findAll({
       where: { id_ing: ingredientes },
@@ -47,6 +48,7 @@ const crearReceta = async (req, res = response) => {
       id_ing,
       tiempo_prep,
       prep,
+      tipo,
     });
     console.log(typeof ings);
 
