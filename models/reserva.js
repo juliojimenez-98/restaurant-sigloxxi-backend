@@ -18,7 +18,6 @@ const Reserva = dbConnection.dbConnection.define(
     },
     fecha_reserva: {
       type: DataTypes.DATE,
-      defaultValue: 0,
     },
     id_cliente: {
       type: DataTypes.INTEGER,
