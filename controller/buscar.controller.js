@@ -3,8 +3,9 @@ const { Op } = require("sequelize");
 const Ingredientes = require("../models/ingredientes");
 const Mesa = require("../models/mesa");
 const Usuario = require("../models/usuario");
+//const Proveedor = require("../models/proveedor");
 
-const tablasExistentes = ["mesas", "ingredientes", "rol", "usuarios"];
+const tablasExistentes = ["mesas", "ingredientes", "rol", "usuarios","proveedores"];
 
 const buscarUsuarios = async (termino = "", res = response) => {
   const usuarios = await Usuario.findAll({
@@ -20,6 +21,19 @@ const buscarUsuarios = async (termino = "", res = response) => {
     results: usuarios,
   });
 };
+
+//const buscarProveedores = async(termino = "", res = response) => {
+  //const proveedores = await Proveedor.findAll({
+    //where: {
+      //[Op.or]: [
+       // { id_proveedor: {[Op.like]: "%" + termino + "%"}},
+       // { nombre:{ [Op.like]: "%" + termino + "%" } },
+       // { tel_contacto: {[Op.like]: "%" + termino + "%"}},
+       // { email: {[Op.like]: "%" + termino + "%"}},
+      //],
+    //},
+  //});
+//}; 
 
 const buscarIngredientes = async (termino = "", res = response) => {
   const ingredientes = await Ingredientes.findAll({
