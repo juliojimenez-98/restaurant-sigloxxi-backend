@@ -11,6 +11,7 @@ const Receta = dbConnection.dbConnection.define(
     nombre_prep: { type: DataTypes.STRING, allowNull: false },
     prep: { type: DataTypes.STRING, allowNull: false },
     tiempo_prep: { type: DataTypes.INTEGER, allowNull: false },
+    tipo: { type: DataTypes.INTEGER, allowNull: false },
     id_ing: {
       type: DataTypes.INTEGER,
       references: {
