@@ -85,7 +85,13 @@ const actualizarReceta = async (req, res = response) => {
   if (body.prep) update.prep = body.prep;
   if (body.tiempo_prep) update.tiempo_prep = body.tiempo_prep;
   if (body.id_ing) update.id_ing = body.id_ing;
-  if (body.ingredientes) update.ingredientes = body.ingredientes;
+  if (body.ingredientes) {
+    const ings = await Ingredientes.findAll({
+      where: { id_ing: body.ingredientes },
+    });
+    body.ingredientes = ings;
+    update.ingredientes = body.ingredientes;
+  }
 
   const updateReceta = await Receta.update(update, {
     where: {
