@@ -17,11 +17,9 @@ router.post(
   "/plato",
   [
     check("desc", "El desc es obligatorio").not().isEmpty(),
-    check("id_receta", "El Nombre de la preparacion es obligatorio")
-      .not()
-      .isEmpty(),
-    check("precio", "El tiempo de preparación es obligatorio").not().isEmpty(),
-    check("estado", "El tiempo de preparación es obligatorio").not().isEmpty(),
+    check("id_receta", "La receta es obligatoria").not().isEmpty(),
+    check("precio", "El precio es obligatorio").not().isEmpty(),
+    check("estado", "El estado es obligatorio").not().isEmpty(),
     validarCampos,
   ],
   crearPlato
