@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("../database/config");
+const fileUpload = require("express-fileupload");
 
 class Server {
   constructor() {
@@ -17,6 +18,7 @@ class Server {
     this.reservaPath = "/api/reserva";
     this.usuariosPath = "/api/usuarios";
     this.proveedoresPath = "/api/proveedores";
+    this.pedido_ingPath = "/api/pedido_ing";
     this.pedido_ingPath = "/api/pedido_ing";
 
 
@@ -40,6 +42,16 @@ class Server {
   middleweres() {
     this.app.use(express.json());
     this.app.use(cors());
+
+    //carga de archivos
+
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+        createParentPath: true,
+      })
+    );
   }
 
   routes() {
@@ -51,7 +63,10 @@ class Server {
     this.app.use(this.recetasPath, require("../routes/receta.routes"));
     this.app.use(this.reservaPath, require("../routes/reserva.routes"));
     this.app.use(this.usuariosPath, require("../routes/usuario.routes"));
-    this.app.use(this.ingredientesPath, require("../routes/ingrediente.routes"));
+    this.app.use(
+      this.ingredientesPath,
+      require("../routes/ingrediente.routes")
+    );
     this.app.use(this.proveedoresPath, require("../routes/proveedor.routes"));
     this.app.use(this.pedido_ingPath, require("../routes/pedido_ing.routes"));
   }
