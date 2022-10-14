@@ -19,8 +19,7 @@ class Server {
     this.usuariosPath = "/api/usuarios";
     this.proveedoresPath = "/api/proveedores";
     this.pedido_ingPath = "/api/pedido_ing";
-    this.pedido_ingPath = "/api/pedido_ing";
-
+    this.uploadsPath = "/api/uploads";
 
     //Conexion DB
     this.conectarDB();
@@ -69,6 +68,7 @@ class Server {
     );
     this.app.use(this.proveedoresPath, require("../routes/proveedor.routes"));
     this.app.use(this.pedido_ingPath, require("../routes/pedido_ing.routes"));
+    this.app.use(this.uploadsPath, require("../routes/uploads.routes"));
   }
 
   listen() {
