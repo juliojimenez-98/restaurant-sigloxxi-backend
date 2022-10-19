@@ -1,4 +1,5 @@
 const { response } = require("express");
+const { Op } = require("sequelize");
 const Cliente = require("../models/cliente");
 
 const crearCliente = async (req, res = response) => {
@@ -29,6 +30,21 @@ const crearCliente = async (req, res = response) => {
   }
 };
 
+const obtenerClienteParaReserva = async (req, res = response) => {
+  const email = req.params.email;
+  const cel = req.params.cel;
+
+  const findCliente = await Cliente.findOne({
+    where: {
+      [Op.and]: [{ email: email }, { cel: cel }],
+    },
+  });
+  res.status(200).json({
+    findCliente,
+  });
+};
+
 module.exports = {
   crearCliente,
+  obtenerClienteParaReserva,
 };
