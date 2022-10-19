@@ -3,8 +3,15 @@ const Plato = require("../models/plato");
 const Receta = require("../models/receta");
 
 const obtenerPlatos = async (req, res = response) => {
+  const tipo = req.params.tipo;
+  const tipoPlato = parseInt(tipo);
   try {
-    const platos = await Plato.findAll({ include: Receta });
+    const platos = await Plato.findAll({
+      include: Receta,
+      where: {
+        tipo_plato: tipoPlato,
+      },
+    });
     res.json({ platos });
   } catch (error) {
     res.status(500).send({

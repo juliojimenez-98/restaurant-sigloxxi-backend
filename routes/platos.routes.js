@@ -11,7 +11,7 @@ const {
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
-router.get("/platos", obtenerPlatos);
+router.get("/platos/:tipo", obtenerPlatos);
 
 router.post(
   "/plato",
@@ -20,6 +20,7 @@ router.post(
     check("id_receta", "La receta es obligatoria").not().isEmpty(),
     check("precio", "El precio es obligatorio").not().isEmpty(),
     check("estado", "El estado es obligatorio").not().isEmpty(),
+    check("tipo", "El tipo de plato es obligatorio").not().isEmpty(),
     validarCampos,
   ],
   crearPlato
