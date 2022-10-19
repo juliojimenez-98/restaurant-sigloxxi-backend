@@ -5,6 +5,7 @@ const {
   cargarArchivos,
   actualizarImagen,
   mostrarImagen,
+  actualizarImagenCloud,
 } = require("../controller/uploads.controller");
 const { tablasPermitidas } = require("../helpers/db-validators");
 const { validarArchivoASubir } = require("../middlewares/validar-archivo");
@@ -19,7 +20,7 @@ router.put(
     (check("tabla").custom((c) => tablasPermitidas(c, ["plato"])),
     validarCampos),
   ],
-  actualizarImagen
+  actualizarImagenCloud
 );
 router.get(
   "/:tabla/:id",
