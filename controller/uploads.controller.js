@@ -1,5 +1,11 @@
 const path = require("path");
 const fs = require("fs");
+const cloudinary = require("cloudinary").v2;
+cloudinary.config({
+  cloud_name: process.env.CLOUD_NAME,
+  api_key: process.env.API_KEY,
+  api_secret: process.env.API_SECRET,
+});
 const { response } = require("express");
 const { subirArchivo } = require("../helpers/subir-archivo");
 const Plato = require("../models/plato");
@@ -60,6 +66,54 @@ const actualizarImagen = async (req, res = response) => {
   res.json(modelo);
 };
 
+const actualizarImagenCloud = async (req, res = response) => {
+  const { tabla, id } = req.params;
+
+  let modelo;
+
+  switch (tabla) {
+    case "plato":
+      modelo = await Plato.findOne({
+        where: {
+          id_plato: id,
+        },
+      });
+
+      if (!modelo) {
+        return res
+          .status(400)
+          .json({ msg: `No existe un plato con el id ${id}` });
+      }
+      break;
+
+    default:
+      return res.status(500).json({ msg: "Se me olvido validar esto" });
+  }
+
+  //limpiar imagenes previas
+  if (modelo.img) {
+    const nombreArr = modelo.img.split("/");
+    const nombre = nombreArr[nombreArr.length - 1];
+    const [public_id] = nombre.split(".");
+    cloudinary.uploader.destroy(public_id);
+  }
+
+  const { tempFilePath } = req.files.archivo;
+  console.log(tempFilePath);
+  const { secure_url } = await cloudinary.uploader.upload(
+    tempFilePath,
+    (error, result) => {
+      console.log(error);
+    }
+  );
+
+  modelo.img = secure_url;
+
+  await modelo.save();
+
+  res.json(modelo);
+};
+
 const mostrarImagen = async (req, res = response) => {
   const { tabla, id } = req.params;
 
@@ -98,4 +152,5 @@ module.exports = {
   cargarArchivos,
   actualizarImagen,
   mostrarImagen,
+  actualizarImagenCloud,
 };
