@@ -22,6 +22,9 @@ const Plato = dbConnection.dbConnection.define(
       type: DataTypes.INTEGER,
       defaultValue: 1,
     },
+    tipo_plato: {
+      type: DataTypes.INTEGER,
+    },
     id_receta: {
       type: DataTypes.INTEGER,
       references: {
