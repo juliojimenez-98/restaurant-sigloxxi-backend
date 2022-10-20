@@ -11,7 +11,7 @@ const {
 const { validarCampos } = require("../middlewares/validar-campos");
 
 const router = Router();
-router.get("/platos/:tipo", obtenerPlatos);
+router.get("/platos", obtenerPlatos);
 
 router.post(
   "/plato",
