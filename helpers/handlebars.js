@@ -1,17 +1,54 @@
 const path = require("path");
 var nodemailer = require("nodemailer");
 var hbs = require("nodemailer-express-handlebars");
+const { google } = require("googleapis");
+require("dotenv").config();
 
-var transporter = nodemailer.createTransport({
+const OAuth2 = google.auth.OAuth2;
+
+const OAuth2Client = new OAuth2(
+  process.env.CLIENTE_ID,
+  process.env.CLIENT_SECRET,
+  process.env.REDIRECT_URI
+);
+
+OAuth2Client.setCredentials({ refresh_token: process.env.REFRESH_TOKEN });
+
+const accessToken = new Promise((resolve, reject) => {
+  OAuth2Client.getAccessToken((err, token) => {
+    if (err) reject(err);
+    resolve(token);
+  });
+});
+
+const transporter = nodemailer.createTransport({
+  service: "gmail",
   host: "smtp.gmail.com",
+  port: 587,
+  secure: true,
   auth: {
     type: "OAuth2",
-    user: "juliojimenez1998@gmail.com",
-    clientId:
-      "59360722351-oge8rannm7mmbnheqe9i5sflcu3r36it.apps.googleusercontent.com",
-    clientSecret: "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",
+    user: process.env.USER_GMAIL,
+    clientId: process.env.CLIENTE_ID,
+    accessToken: accessToken,
+    clientSecret: process.env.CLIENT_SECRET,
+    refreshToken: process.env.REFRESH_TOKEN,
   },
 });
+
+// const transporter = nodemailer.createTransport({
+//   host: "smtp.gmail.com",
+//   port: 465,
+//   secure: true,
+//   auth: {
+//     type: "OAuth2",
+//     user: process.env.USER_GMAIL,
+//     clientId: process.env.CLIENTE_ID,
+//     clientSecret: process.env.CLIENT_SECRET,
+//     refreshToken: process.env.REFRESH_TOKEN,
+//     accessToken: process.env.ACCESS_TOKEN,
+//   },
+// });
 
 const handlebarOptions = {
   viewEngine: {
@@ -25,21 +62,6 @@ const handlebarOptions = {
 
 transporter.use("compile", hbs(handlebarOptions));
 
-var mailOptions = {
-  from: "j.jimenezv098@gmail.com",
-  to: "juliojimenez@gmail.com",
-  subject: "Sending Email using Node.js",
-  template: "emailCrearUsuario",
-  context: {
-    title: "Title Here",
-    text: "Lorem ipsum dolor sit amet, consectetur...",
-  },
+module.exports = {
+  transporter,
 };
-
-transporter.sendMail(mailOptions, function (error, info) {
-  if (error) {
-    console.log(error);
-  } else {
-    console.log("Email sent: " + info.response);
-  }
-});
