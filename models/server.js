@@ -1,6 +1,7 @@
 const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("../database/config");
+const moment = require("moment/moment");
 const fileUpload = require("express-fileupload");
 
 class Server {
@@ -41,6 +42,7 @@ class Server {
   middleweres() {
     this.app.use(express.json());
     this.app.use(cors());
+    moment.locale("es");
 
     //carga de archivos
 
@@ -73,6 +75,7 @@ class Server {
 
   listen() {
     this.app.listen(this.port, () => {
+      console.log(`Hoy es: ${moment().format("LL")}`);
       console.log("Servidor corriendo en el puerto", this.port);
     });
   }

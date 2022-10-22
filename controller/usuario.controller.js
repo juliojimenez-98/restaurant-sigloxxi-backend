@@ -75,6 +75,7 @@ const crearUsuario = async (req, res = response) => {
     await usuario.save();
 
     res.status(200).json({ msg: "ok", usuario });
+
     var mailOptions = {
       from: process.env.USER_GMAIL,
       to: body.email,
