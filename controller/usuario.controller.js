@@ -2,6 +2,7 @@ const { response } = require("express");
 const Usuario = require("../models/usuario");
 const bcryptjs = require("bcryptjs");
 const Rol = require("../models/rol");
+const { transporter } = require("../helpers/handlebars");
 
 obtenerUsuarios = async (req, res = response) => {
   const usuarios = await Usuario.findAll({
@@ -74,6 +75,31 @@ const crearUsuario = async (req, res = response) => {
     await usuario.save();
 
     res.status(200).json({ msg: "ok", usuario });
+
+    var mailOptions = {
+      from: process.env.USER_GMAIL,
+      to: body.email,
+      subject: "Bienvenido a restaurant siglo XXI",
+      template: "emailCrearUsuario",
+      context: {
+        name: `Hola ${usuario.nombre} ${usuario.appa}`,
+        password: `Tu contraseña es ${usuario.email.split("@")[0]}`,
+      },
+    };
+
+    await transporter.sendMail(mailOptions, function (err, info) {
+      if (err) {
+        console.log(err);
+      } else {
+        console.log("info.messageId: " + info.messageId);
+        console.log("info.envelope: " + info.envelope);
+        console.log("info.accepted: " + info.accepted);
+        console.log("info.rejected: " + info.rejected);
+        console.log("info.pending: " + info.pending);
+        // console.log("info.response: " + info.response);
+      }
+      transporter.close();
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({
