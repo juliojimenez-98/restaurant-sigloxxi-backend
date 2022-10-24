@@ -20,8 +20,6 @@ const obtenerReservas = async (req, res = response) => {
 };
 
 const crearReserva = async (req, res = response) => {
-  const { body } = req;
-
   const mesaDisp = await Mesa.findOne({
     where: {
       [Op.and]: [
