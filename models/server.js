@@ -23,6 +23,7 @@ class Server {
     this.uploadsPath = "/api/uploads";
 
     this.pedido_clientePath = "/api/pedidos-clientes";
+    this.ventaPath = "/api/ventas";
 
     //Conexion DB
     this.conectarDB();
@@ -78,6 +79,7 @@ class Server {
       this.pedido_clientePath,
       require("../routes/pedido_cliente.routes")
     );
+    this.app.use(this.ventaPath, require("../routes/venta.routes"));
   }
 
   listen() {
