@@ -6,17 +6,17 @@ const Medio_pago = require("../models/medio_pago");
 const crearVenta = async(req, res = response) => {
     const { body } = req;
     try{
-        const id_ventaExists = await Venta.findOne({
-            where: {
-                id_venta: body.venta,
-            },
-        });
+        // const id_ventaExists = await Venta.findOne({
+        //     where: {
+        //         id_venta: body.id_venta,
+        //     },
+        // });
 
-        if (id_ventaExists) {
-            return res.status(404).json({
-                msg: `La venta con id ${body.venta} ya existe`
-            });
-        }
+        // if (id_ventaExists) {
+        //     return res.status(404).json({
+        //         msg: `La venta con id ${body.id_venta} ya existe`
+        //     });
+        // }
 
  //       const id_ordenExists = await Pedido_cliente.findOne({
      //        where: {
@@ -64,41 +64,36 @@ const eliminarVenta = async (req, res = response) => {
     });
 };
 
-const obtenerVentas = async(req, res = response) => {
-    const ventas = await Venta.findAll();
-    res.json({ ventas });
-};
+ const obtenerVentas = async(req, res = response) => {
+     const ventas = await Venta.findAll();
+     res.json({ ventas });
+ }
+ const actualizarVenta = async(req, res = response) => {
+     const id = req.params.id;
+     const idInt = parseInt(id)
+     const findVenta = await Venta.findOne({
+         raw: true,
+         where: {
+             id_venta: idInt,
+         },
+     })
+     const update = {};
 
-const actualizarVenta = async(req, res = response) => {
-    const id = req.params.id;
-    const idInt = parseInt(id);
-
-    const findVenta = await Venta.findOne({
-        raw: true,
-        where: {
-            id_venta: idInt,
-        },
-    });
-
-    const update = {};
-
-    if (req.body.medio_pago) update.medio_pago = req.body.medio_pago;
-    if (req.body.monto) update.monto = req.body.monto;
-    if (req.body.iva) update.iva = req.body.iva;
-    if (req.body.desc_venta) update.desc_venta = req.body.desc_venta;
-    if (req.body.id_pago) update.id_pago = req.body.id_pago;
-
-    const updateVenta = await Venta.update(update, {
-        where: {
-            id_venta: idInt,
-        },
-    });
-
+     if (req.body.medio_pago) update.medio_pago = req.body.medio_pago;
+     if (req.body.monto) update.monto = req.body.monto;
+     if (req.body.iva) update.iva = req.body.iva;
+     if (req.body.desc_venta) update.desc_venta = req.body.desc_venta;
+     if (req.body.id_pago) update.id_pago = req.body.id_pago
+     const updateVenta = await Venta.update(update, {
+         where: {
+             id_venta: idInt,
+         },
+     })
     res.status(201).send({
         updateVenta,
         update,
     });
-};
+ };
 
 module.exports = {
     crearVenta,
