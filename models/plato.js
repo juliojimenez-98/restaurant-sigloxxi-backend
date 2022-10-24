@@ -11,15 +11,19 @@ const Plato = dbConnection.dbConnection.define(
     },
     desc: {
       type: DataTypes.DOUBLE,
-      primaryKey: true,
     },
     precio: {
       type: DataTypes.DOUBLE,
-      primaryKey: true,
+    },
+    img: {
+      type: DataTypes.STRING,
     },
     estado: {
       type: DataTypes.INTEGER,
       defaultValue: 1,
+    },
+    tipo_plato: {
+      type: DataTypes.INTEGER,
     },
     id_receta: {
       type: DataTypes.INTEGER,

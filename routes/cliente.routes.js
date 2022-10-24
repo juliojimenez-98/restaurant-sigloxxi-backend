@@ -1,6 +1,9 @@
 const { Router } = require("express");
 const { check } = require("express-validator");
-const { crearCliente } = require("../controller/cliente.controller");
+const {
+  crearCliente,
+  obtenerClienteParaReserva,
+} = require("../controller/cliente.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
 
@@ -18,5 +21,7 @@ router.post(
   ],
   crearCliente
 );
+
+router.get("/cliente/:email", obtenerClienteParaReserva);
 
 module.exports = router;

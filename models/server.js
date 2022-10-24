@@ -1,6 +1,8 @@
 const express = require("express");
 const cors = require("cors");
 const { dbConnection } = require("../database/config");
+const moment = require("moment/moment");
+const fileUpload = require("express-fileupload");
 
 class Server {
   constructor() {
@@ -18,7 +20,9 @@ class Server {
     this.usuariosPath = "/api/usuarios";
     this.proveedoresPath = "/api/proveedores";
     this.pedido_ingPath = "/api/pedido_ing";
+    this.uploadsPath = "/api/uploads";
 
+    this.pedido_clientePath = "/api/pedidos-clientes";
 
     //Conexion DB
     this.conectarDB();
@@ -40,6 +44,17 @@ class Server {
   middleweres() {
     this.app.use(express.json());
     this.app.use(cors());
+    moment.locale("es");
+
+    //carga de archivos
+
+    this.app.use(
+      fileUpload({
+        useTempFiles: true,
+        tempFileDir: "/tmp/",
+        createParentPath: true,
+      })
+    );
   }
 
   routes() {
@@ -51,13 +66,23 @@ class Server {
     this.app.use(this.recetasPath, require("../routes/receta.routes"));
     this.app.use(this.reservaPath, require("../routes/reserva.routes"));
     this.app.use(this.usuariosPath, require("../routes/usuario.routes"));
-    this.app.use(this.ingredientesPath, require("../routes/ingrediente.routes"));
+    this.app.use(
+      this.ingredientesPath,
+      require("../routes/ingrediente.routes")
+    );
     this.app.use(this.proveedoresPath, require("../routes/proveedor.routes"));
     this.app.use(this.pedido_ingPath, require("../routes/pedido_ing.routes"));
+    this.app.use(this.uploadsPath, require("../routes/uploads.routes"));
+
+    this.app.use(
+      this.pedido_clientePath,
+      require("../routes/pedido_cliente.routes")
+    );
   }
 
   listen() {
     this.app.listen(this.port, () => {
+      console.log(`Hoy es: ${moment().format("LL")}`);
       console.log("Servidor corriendo en el puerto", this.port);
     });
   }

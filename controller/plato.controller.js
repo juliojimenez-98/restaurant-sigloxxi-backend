@@ -4,7 +4,9 @@ const Receta = require("../models/receta");
 
 const obtenerPlatos = async (req, res = response) => {
   try {
-    const platos = await Plato.findAll({ include: Receta });
+    const platos = await Plato.findAll({
+      include: Receta,
+    });
     res.json({ platos });
   } catch (error) {
     res.status(500).send({
