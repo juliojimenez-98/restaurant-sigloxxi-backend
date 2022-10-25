@@ -141,6 +141,7 @@ const actualizarUsuario = async (req = request, res = response) => {
   });
 
   res.status(201).send({
+    msg: "ok",
     updateUser,
     update,
   });
