@@ -22,6 +22,6 @@ router.post(
   crearCliente
 );
 
-router.get("/cliente/:email/:cel", obtenerClienteParaReserva);
+router.get("/cliente/:email", obtenerClienteParaReserva);
 
 module.exports = router;

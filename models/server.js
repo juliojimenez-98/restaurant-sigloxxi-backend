@@ -22,6 +22,9 @@ class Server {
     this.pedido_ingPath = "/api/pedido_ing";
     this.uploadsPath = "/api/uploads";
 
+    this.pedido_clientePath = "/api/pedidos-clientes";
+    this.ventaPath = "/api/ventas";
+
     //Conexion DB
     this.conectarDB();
     //Middleweres
@@ -71,6 +74,12 @@ class Server {
     this.app.use(this.proveedoresPath, require("../routes/proveedor.routes"));
     this.app.use(this.pedido_ingPath, require("../routes/pedido_ing.routes"));
     this.app.use(this.uploadsPath, require("../routes/uploads.routes"));
+
+    this.app.use(
+      this.pedido_clientePath,
+      require("../routes/pedido_cliente.routes")
+    );
+    this.app.use(this.ventaPath, require("../routes/venta.routes"));
   }
 
   listen() {

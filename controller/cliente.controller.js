@@ -12,8 +12,22 @@ const crearCliente = async (req, res = response) => {
     });
 
     if (emailExists) {
-      return res.status(404).json({
-        msg: `El cliente con email: ${body.email} ya esta registrado`,
+      const update = {};
+      if (body.nombre) update.nombre = body.nombre;
+      if (body.appa) update.appa = body.appa;
+      if (body.cel) update.cel = body.cel;
+
+      const updateCliente = await Cliente.update(update, {
+        where: {
+          id_cliente: emailExists.id_cliente,
+        },
+      });
+
+      return res.status(201).json({
+        msg: `ok`,
+        updateCliente,
+        update,
+        email: emailExists.email,
       });
     }
 
@@ -32,11 +46,10 @@ const crearCliente = async (req, res = response) => {
 
 const obtenerClienteParaReserva = async (req, res = response) => {
   const email = req.params.email;
-  const cel = req.params.cel;
 
   const findCliente = await Cliente.findOne({
     where: {
-      [Op.and]: [{ email: email }, { cel: cel }],
+      email: email,
     },
   });
   res.status(200).json({
