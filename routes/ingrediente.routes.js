@@ -6,6 +6,7 @@ const {
   obtenerIngredientes,
   obtenerIngredientePorId,
   eliminarIngrediente,
+  obtenerIngredientesPaginado,
 } = require("../controller/ingredientes.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -13,6 +14,8 @@ const { validarCampos } = require("../middlewares/validar-campos");
 const router = Router();
 
 router.get("/ingredientes", obtenerIngredientes);
+
+router.get("/ingredientes/:desde/:limite", obtenerIngredientesPaginado);
 
 router.get("/ingrediente/:id", obtenerIngredientePorId);
 
