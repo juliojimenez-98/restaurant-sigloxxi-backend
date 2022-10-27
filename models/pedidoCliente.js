@@ -10,7 +10,7 @@ const PedidoCliente = dbConnection.dbConnection.define(
       type: DataTypes.INTEGER,
       primaryKey: true,
     },
-    tiempo_espera: { type: DataTypes.INTEGER, allowNull: false },
+    tiempo_espera: { type: DataTypes.INTEGER },
     cant: { type: DataTypes.INTEGER, allowNull: false },
     platos: {
       type: DataTypes.STRING,
@@ -26,6 +26,7 @@ const PedidoCliente = dbConnection.dbConnection.define(
       },
     },
     id_platos: { type: DataTypes.INTEGER },
+    estado: { type: DataTypes.INTEGER },
     id_mesa: { type: DataTypes.INTEGER, allowNull: false },
   },
   {

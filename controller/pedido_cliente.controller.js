@@ -4,7 +4,7 @@ const Plato = require("../models/plato");
 
 const crearPedidoCliente = async (req, res = response) => {
   try {
-    const { tiempo_espera, cant, platos, id_mesa } = req.body;
+    const { tiempo_espera, cant, platos, id_mesa, estado } = req.body;
 
     const platosArray = await Plato.findAll({
       where: { id_plato: platos },
@@ -16,6 +16,7 @@ const crearPedidoCliente = async (req, res = response) => {
       tiempo_espera,
       cant,
       id_mesa,
+      estado,
     });
 
     await pedidoCliente.save();
