@@ -28,6 +28,26 @@ const obtenerIngredientes = async (req, res = response) => {
   }
 };
 
+const obtenerIngredientesPaginado = async (req, res = response) => {
+  const dsd = req.params.desde;
+  const desde = parseInt(dsd);
+  const lmt = req.params.limite;
+  const limite = parseInt(lmt);
+
+  try {
+    const ingrediente = await Ingredientes.findAll({
+      limit: limite,
+      offset: desde,
+    });
+    res.json({ ingrediente });
+  } catch (error) {
+    res.status(500).send({
+      error,
+    });
+    console.log(error);
+  }
+};
+
 const crearIngrediente = async (req, res = response) => {
   try {
     const { body } = req;
@@ -98,4 +118,5 @@ module.exports = {
   obtenerIngredientes,
   obtenerIngredientePorId,
   eliminarIngrediente,
+  obtenerIngredientesPaginado,
 };
