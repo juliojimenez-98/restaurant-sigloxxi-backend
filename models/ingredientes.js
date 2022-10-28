@@ -11,7 +11,7 @@ const Ingredientes = dbConnection.dbConnection.define(
     nombre: { type: DataTypes.STRING, allowNull: false },
     stock: { type: DataTypes.INTEGER, allowNull: false },
     stock_cri: { type: DataTypes.INTEGER, allowNull: false },
-    fecha_vencimiento: { type: DataTypes.INTEGER, allowNull: false },
+    fecha_vencimiento: { type: DataTypes.DATE, allowNull: false },
     unidad: { type: DataTypes.STRING, allowNull: false },
   },
   {
