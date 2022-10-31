@@ -24,6 +24,7 @@ class Server {
 
     this.pedido_clientePath = "/api/pedidos-clientes";
     this.ventaPath = "/api/ventas";
+    this.bebestiblePath = "/api/bebestibles";
 
     //Conexion DB
     this.conectarDB();
@@ -80,6 +81,7 @@ class Server {
       require("../routes/pedido_cliente.routes")
     );
     this.app.use(this.ventaPath, require("../routes/venta.routes"));
+    this.app.use(this.bebestiblePath, require("../routes/bebestibles.routes"));
   }
 
   listen() {

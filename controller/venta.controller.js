@@ -6,30 +6,6 @@ const Medio_pago = require("../models/medio_pago");
 const crearVenta = async(req, res = response) => {
     const { body } = req;
     try{
-        // const id_ventaExists = await Venta.findOne({
-        //     where: {
-        //         id_venta: body.id_venta,
-        //     },
-        // });
-
-        // if (id_ventaExists) {
-        //     return res.status(404).json({
-        //         msg: `La venta con id ${body.id_venta} ya existe`
-        //     });
-        // }
-
- //       const id_ordenExists = await Pedido_cliente.findOne({
-     //        where: {
-       //          id_orden: body.id_orden,
-       //      },
-       //  });
-
-      //   if (!id_ordenExists) {
-       //      return res.status(404).json({
-        //         msg: `La orden: ${body.id_orden} no existe`,
-        //     });
-        // }
-
         const id_pagoExists = await Medio_pago.findOne({
             where: {
                 id_pago: body.id_pago,
