@@ -19,7 +19,7 @@ class Server {
     this.reservaPath = "/api/reserva";
     this.usuariosPath = "/api/usuarios";
     this.proveedoresPath = "/api/proveedores";
-    this.pedido_ingPath = "/api/pedido_ing";
+    this.pedido_ingPath = "/api/pedido-ingredientes";
     this.uploadsPath = "/api/uploads";
 
     this.pedido_clientePath = "/api/pedidos-clientes";
