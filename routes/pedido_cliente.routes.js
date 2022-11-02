@@ -2,6 +2,7 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 const {
   crearPedidoCliente,
+  obtenerPedidoPorMesa,
 } = require("../controller/pedido_cliente.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -23,5 +24,7 @@ router.post(
   ],
   crearPedidoCliente
 );
+
+router.get("/:id_mesa", obtenerPedidoPorMesa);
 
 module.exports = router;

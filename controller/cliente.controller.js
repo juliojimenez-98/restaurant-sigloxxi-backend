@@ -28,6 +28,7 @@ const crearCliente = async (req, res = response) => {
         updateCliente,
         update,
         email: emailExists.email,
+        id_cliente: emailExists.id_cliente,
       });
     }
 

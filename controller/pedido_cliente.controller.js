@@ -1,6 +1,8 @@
 const { response } = require("express");
+const { Op } = require("sequelize");
 const PedidoCliente = require("../models/pedidoCliente");
 const Plato = require("../models/plato");
+const Receta = require("../models/receta");
 
 const crearPedidoCliente = async (req, res = response) => {
   try {
@@ -30,6 +32,22 @@ const crearPedidoCliente = async (req, res = response) => {
   }
 };
 
+const obtenerPedidoPorMesa = async (req, res = response) => {
+  const id = req.params.id_mesa;
+  const idInt = parseInt(id);
+
+  const findPedido = await PedidoCliente.findOne({
+    where: {
+      [Op.and]: [{ id_mesa: idInt }, { estado: 1 }],
+    },
+  });
+
+  res.status(200).json({
+    findPedido,
+  });
+};
+
 module.exports = {
   crearPedidoCliente,
+  obtenerPedidoPorMesa,
 };

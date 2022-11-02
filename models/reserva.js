@@ -16,6 +16,10 @@ const Reserva = dbConnection.dbConnection.define(
     cant_personas: {
       type: DataTypes.INTEGER,
     },
+    estado: {
+      type: DataTypes.INTEGER,
+      defaultValue: 2,
+    },
     fecha_reserva: {
       type: DataTypes.DATE,
     },

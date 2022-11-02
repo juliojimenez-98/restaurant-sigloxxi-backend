@@ -1,5 +1,5 @@
 const { response } = require("express");
-const { Op } = require("sequelize");
+const { Op, where } = require("sequelize");
 const { body } = require("express-validator");
 const Mesa = require("../models/mesa");
 const Reserva = require("../models/reserva");
@@ -62,11 +62,6 @@ const crearReserva = async (req, res = response) => {
           },
         }
       );
-      console.log({
-        name: `${clienteExiste.nombre} ${clienteExiste.appa}`,
-        fecha: `${moment().format("LL", reserva.fecha_reserva)}`,
-        hora: `${reserva.hora_reserva}`,
-      });
 
       res.status(200).json({ msg: "ok", reserva });
 
@@ -109,7 +104,79 @@ const crearReserva = async (req, res = response) => {
   }
 };
 
+const cancelarReserva = async (req, res = response) => {
+  const id = req.params.id;
+  const findReserva = await Reserva.findOne({ where: { id_reserva: id } });
+  if (!findReserva) {
+    return res.status(404).json({
+      msg: `No existe una reserva con el id: ${id}`,
+    });
+  }
+
+  const cancelarReserva = await Reserva.update(
+    { estado: 0 },
+    {
+      where: {
+        id_reserva: id,
+      },
+    }
+  );
+  res.json({
+    msg: "ok",
+    cancelarReserva,
+  });
+};
+
+const confirmarReserva = async (req, res = response) => {
+  const id = req.params.id;
+  const findReserva = await Reserva.findOne({ where: { id_reserva: id } });
+  if (!findReserva) {
+    return res.status(404).json({
+      msg: `No existe una reserva con el id: ${id}`,
+    });
+  }
+
+  const confirmarReserva = await Reserva.update(
+    { estado: 1 },
+    {
+      where: {
+        id_reserva: id,
+      },
+    }
+  );
+  res.json({
+    msg: "ok",
+    confirmarReserva,
+  });
+};
+
+const obtenerReservaPorCliente = async (req, res = response) => {
+  const emailParametro = req.params.email;
+  try {
+    const reservas = await Reserva.findAll({
+      where: {
+        [Op.or]: [{ estado: 2 }, { estado: 1 }],
+      },
+      include: {
+        model: Cliente,
+        where: {
+          email: emailParametro,
+        },
+      },
+    });
+    res.json({ reservas });
+  } catch (error) {
+    res.status(500).send({
+      error,
+    });
+    console.log(error);
+  }
+};
+
 module.exports = {
   crearReserva,
   obtenerReservas,
+  obtenerReservaPorCliente,
+  cancelarReserva,
+  confirmarReserva,
 };
