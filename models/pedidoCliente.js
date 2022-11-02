@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const dbConnection = require("../database/config");
 const Mesa = require("./mesa");
-const Plato = require("./plato");
 
 const PedidoCliente = dbConnection.dbConnection.define(
   "pedido_cliente",
@@ -25,7 +24,19 @@ const PedidoCliente = dbConnection.dbConnection.define(
         }
       },
     },
-    id_platos: { type: DataTypes.INTEGER },
+    bebestibles: {
+      type: DataTypes.STRING,
+      get: function () {
+        if (typeof this.getDataValue("bebestibles") === "string") {
+          return JSON.parse(this.getDataValue("bebestibles"));
+        }
+      },
+      set: function (val) {
+        if (typeof val === "object") {
+          return this.setDataValue("bebestibles", JSON.stringify(val));
+        }
+      },
+    },
     estado: { type: DataTypes.INTEGER },
     id_mesa: { type: DataTypes.INTEGER, allowNull: false },
   },
@@ -37,8 +48,5 @@ const PedidoCliente = dbConnection.dbConnection.define(
 
 Mesa.hasOne(PedidoCliente, { foreignKey: "id_mesa", as: "mesa" });
 PedidoCliente.belongsTo(Mesa, { foreignKey: "id_mesa" });
-
-Plato.hasOne(PedidoCliente, { foreignKey: "id_plato", as: "plato" });
-PedidoCliente.belongsTo(Plato, { foreignKey: "id_plato" });
 
 module.exports = PedidoCliente;

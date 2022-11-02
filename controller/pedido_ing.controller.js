@@ -43,6 +43,21 @@ const crearPedido_ing = async (req, res = response) => {
   }
 };
 
+const obtenerPedidosIngredientes = async (req, res = response) => {
+  const pedidosIngredientes = await Pedido_ing.findAll({
+    include: [
+      {
+        model: Proveedor,
+      },
+      {
+        model: Ingredientes,
+      },
+    ],
+  });
+  res.json({ pedidosIngredientes });
+};
+
 module.exports = {
   crearPedido_ing,
+  obtenerPedidosIngredientes,
 };
