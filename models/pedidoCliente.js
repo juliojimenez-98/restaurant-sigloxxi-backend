@@ -1,7 +1,6 @@
 const { DataTypes } = require("sequelize");
 const dbConnection = require("../database/config");
 const Mesa = require("./mesa");
-const Plato = require("./plato");
 
 const PedidoCliente = dbConnection.dbConnection.define(
   "pedido_cliente",
@@ -22,6 +21,19 @@ const PedidoCliente = dbConnection.dbConnection.define(
       set: function (val) {
         if (typeof val === "object") {
           return this.setDataValue("platos", JSON.stringify(val));
+        }
+      },
+    },
+    bebestibles: {
+      type: DataTypes.STRING,
+      get: function () {
+        if (typeof this.getDataValue("bebestibles") === "string") {
+          return JSON.parse(this.getDataValue("bebestibles"));
+        }
+      },
+      set: function (val) {
+        if (typeof val === "object") {
+          return this.setDataValue("bebestibles", JSON.stringify(val));
         }
       },
     },
