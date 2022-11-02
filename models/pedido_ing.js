@@ -48,7 +48,10 @@ const Pedido_ing = dbConnection.dbConnection.define(
   }
 );
 
-Pedido_ing.hasOne(Proveedor, { foreignKey: "id_proveedor" });
-Pedido_ing.hasOne(Ingredientes, { foreignKey: "id_ing" });
+Proveedor.hasOne(Pedido_ing, { foreignKey: "id_proveedor", as: "proveedor" });
+Pedido_ing.belongsTo(Proveedor, { foreignKey: "id_proveedor" });
+
+Ingredientes.hasOne(Pedido_ing, { foreignKey: "id_ing", as: "ingrediente" });
+Pedido_ing.belongsTo(Ingredientes, { foreignKey: "id_ing" });
 
 module.exports = Pedido_ing;
