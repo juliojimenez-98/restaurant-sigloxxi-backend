@@ -15,13 +15,24 @@ const crearPedidoCliente = async (req, res = response) => {
       });
     }
 
-    console.log(bebestiblesArray);
-
     if (platos) {
       var platosArray = await Plato.findAll({
         where: { id_plato: platos },
       });
     }
+
+    var totalBebestibles = 0;
+    if (bebestibles) {
+      bebestiblesArray.forEach(function (a) {
+        totalBebestibles += a.precio;
+      });
+    }
+    var totalPlatos = 0;
+    platosArray.forEach(function (a) {
+      totalPlatos += a.precio;
+    });
+
+    var totalFinal = totalBebestibles + totalPlatos;
 
     const pedidoCliente = new PedidoCliente({
       platos: platosArray,
@@ -30,6 +41,7 @@ const crearPedidoCliente = async (req, res = response) => {
       cant,
       id_mesa,
       estado,
+      total: totalFinal,
     });
 
     await pedidoCliente.save();
