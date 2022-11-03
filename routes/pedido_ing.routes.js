@@ -2,7 +2,6 @@ const { Router } = require("express");
 const { check } = require("express-validator");
 const {
   crearPedido_ing,
-  crearPedidoIng2,
   obtenerPedidosIngredientes,
 } = require("../controller/pedido_ing.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
