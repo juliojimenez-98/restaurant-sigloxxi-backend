@@ -38,6 +38,7 @@ const PedidoCliente = dbConnection.dbConnection.define(
       },
     },
     estado: { type: DataTypes.INTEGER },
+    total: { type: DataTypes.INTEGER },
     id_mesa: { type: DataTypes.INTEGER, allowNull: false },
   },
   {
