@@ -43,6 +43,25 @@ const crearPedido_ing = async (req, res = response) => {
   }
 };
 
+const obtenerPedidosPorId = async (req, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+  const pedidoFind = await Pedido_ing.findOne({
+    where: {
+      id_pedido: idInt,
+    },
+    include: [
+      {
+        model: Proveedor,
+      },
+      {
+        model: Ingredientes,
+      },
+    ],
+  });
+  res.json({ pedidoFind });
+};
+
 const obtenerPedidosIngredientes = async (req, res = response) => {
   const pedidosIngredientes = await Pedido_ing.findAll({
     include: [
@@ -60,4 +79,5 @@ const obtenerPedidosIngredientes = async (req, res = response) => {
 module.exports = {
   crearPedido_ing,
   obtenerPedidosIngredientes,
+  obtenerPedidosPorId,
 };
