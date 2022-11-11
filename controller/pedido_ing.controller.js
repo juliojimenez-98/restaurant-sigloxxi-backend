@@ -47,6 +47,9 @@ const obtenerPedidosPorId = async (req, res = response) => {
   const id = req.params.id;
   const idInt = parseInt(id);
   const pedidoFind = await Pedido_ing.findOne({
+    where: {
+      id_pedido: idInt,
+    },
     include: [
       {
         model: Proveedor,
@@ -55,9 +58,6 @@ const obtenerPedidosPorId = async (req, res = response) => {
         model: Ingredientes,
       },
     ],
-    where: {
-      id_pedido: idInt,
-    },
   });
   res.json({ pedidoFind });
 };
