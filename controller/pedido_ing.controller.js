@@ -18,17 +18,17 @@ const crearPedido_ing = async (req, res = response) => {
       });
     }
 
-    const id_ingExists = await Ingredientes.findOne({
-      where: {
-        id_ing: body.id_ing,
-      },
-    });
+  // const id_ingExists = await Ingredientes.findOne({
+  //   where: {
+  //     id_ing: body.id_ing,
+  //   },
+  // });
 
-    if (!id_ingExists) {
-      return res.status(404).json({
-        msg: `El ingrediente : ${body.id_ing} no existe`,
-      });
-    }
+  // if (!id_ingExists) {
+  //   return res.status(404).json({
+  //     msg: `El ingrediente : ${body.id_ing} no existe`,
+  //   });
+  // }
 
     const pedido = new Pedido_ing(body);
 

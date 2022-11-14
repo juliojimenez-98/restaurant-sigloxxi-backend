@@ -1,6 +1,8 @@
 const { response } = require("express");
 const Recibo_pedido = require("../models/recibo_pedido");
 const Pedido_ing = require("../models/pedido_ing");
+const Ingredientes = require("../models/ingredientes");
+const Bebestibles = require("../models/bebestibles");
 
 const crearRecibo = async (req, res = response) => {
   const { body } = req;
@@ -9,6 +11,14 @@ const crearRecibo = async (req, res = response) => {
       where: {
         id_pedido: body.id_pedido,
       },
+      include: [
+        {
+          model: Bebestibles,
+        },
+        {
+          model: Ingredientes,
+        },
+      ],
     });
 
     if (!id_pedidoExists) {
@@ -20,9 +30,46 @@ const crearRecibo = async (req, res = response) => {
     const recibo_pedido = new Recibo_pedido(body);
 
     await recibo_pedido.save();
+    
+    if (recibo_pedido.estado === 1 || recibo_pedido.estado === 2){
+        if (id_pedidoExists.id_ing !== null){
+        const actStockIng = await Ingredientes.update(
+          { stock: id_pedidoExists.ingrediente.stock + recibo_pedido.cantidad },
+          {
+            where: {
+              id_ing: id_pedidoExists.id_ing,
+            },
 
-    console.log(recibo_pedido);
+          }
+        );
+        } 
+        
+        if(id_pedidoExists.id_bebida !== null) {
+          const actStockIng = await Bebestibles.update(
+               { stock: id_pedidoExists.bebestible.stock + recibo_pedido.cantidad },
+               {
+                 where: {
+                   id_bebida: id_pedidoExists.id_bebida,
+                 },
+                 
+               }
+             );
+        }
+    }
 
+
+   // if (recibo_pedido.estado === 1 || recibo_pedido.estado === 2 && !id_pedidoExists.id_bebida === undefined){
+     // console.log("entrando a if bebida");
+     // const actStockIng = await Bebestibles.update(
+     //   { stock: id_pedidoExists.bebestible.stock + recibo_pedido.cantidad },
+     //   {
+     //     where: {
+     //       id_bebida: id_pedidoExists.id_bebida,
+     //     },
+     //     
+     //   }
+     // );
+    
     res.status(200).json({ msg: "ok", recibo_pedido });
   } catch (error) {
     console.log(error);
