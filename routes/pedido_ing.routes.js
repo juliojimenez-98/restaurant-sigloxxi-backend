@@ -19,7 +19,6 @@ router.post(
     check("cantidad", "la cantidad es obligatorio").not().isEmpty(),
     check("precio", "el precio es obligatorio").not().isEmpty(),
     check("id_proveedor", "el proveedor es obligatorio").not().isEmpty(),
-    check("id_ing", "el ingrediente es obligatorio").not().isEmpty(),
     validarCampos,
   ],
   crearPedido_ing
