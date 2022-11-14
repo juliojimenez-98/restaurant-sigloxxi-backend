@@ -3,6 +3,7 @@ const { Op } = require("sequelize");
 const Bebestibles = require("../models/bebestibles");
 const PedidoCliente = require("../models/pedidoCliente");
 const Plato = require("../models/plato");
+const Receta = require("../models/receta");
 
 const crearPedidoCliente = async (req, res = response) => {
   try {
@@ -17,7 +18,8 @@ const crearPedidoCliente = async (req, res = response) => {
 
     if (platos) {
       var platosArray = await Plato.findAll({
-        where: { id_plato: platos },
+        where: { id_plato: { [Op.in]: platos } },
+        include: Receta,
       });
     }
 
