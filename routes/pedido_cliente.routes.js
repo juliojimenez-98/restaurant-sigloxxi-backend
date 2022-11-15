@@ -27,6 +27,6 @@ router.post(
 );
 
 router.get("/:id_mesa", obtenerPedidoPorMesa);
-router.get("/comanda", obtenerPedidos);
+router.get("/pedidos/comanda", obtenerPedidos);
 
 module.exports = router;
