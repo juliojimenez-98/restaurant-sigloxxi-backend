@@ -27,6 +27,12 @@ const crearRecibo = async (req, res = response) => {
       });
     }
 
+    if (id_pedidoExists.estado === 0) {
+      return res.status(404).json({
+        msg: `El pedido con id: ${body.id_pedido} ya está ingresado`,
+      });
+    }
+    
     const recibo_pedido = new Recibo_pedido(body);
 
     await recibo_pedido.save();
@@ -57,19 +63,17 @@ const crearRecibo = async (req, res = response) => {
         }
     }
 
+    const actEstadoPedido = await id_pedidoExists.update(
+      { estado: 0 },
+      {
+        where: {
+          id_pedido: recibo_pedido.id_pedido,
+        },
+      }
+    );
 
-   // if (recibo_pedido.estado === 1 || recibo_pedido.estado === 2 && !id_pedidoExists.id_bebida === undefined){
-     // console.log("entrando a if bebida");
-     // const actStockIng = await Bebestibles.update(
-     //   { stock: id_pedidoExists.bebestible.stock + recibo_pedido.cantidad },
-     //   {
-     //     where: {
-     //       id_bebida: id_pedidoExists.id_bebida,
-     //     },
-     //     
-     //   }
-     // );
-    
+
+
     res.status(200).json({ msg: "ok", recibo_pedido });
   } catch (error) {
     console.log(error);
