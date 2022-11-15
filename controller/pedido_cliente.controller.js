@@ -59,19 +59,12 @@ const crearPedidoCliente = async (req, res = response) => {
     console.log(error);
   }
 };
-const obtenerPedidos = async (req, res = response) => {
 
+const obtenerPedidos= async (req, res = response) => {
+  const pedidos = await PedidoCliente.findAll();
+  res.json({ pedidos });
+}
 
-  const pedidos = await PedidoCliente.findAll({
-    where: {
-      estado:1
-    },
-  });
-
-  res.status(200).json({
-    pedidos,
-  });
-};
 const obtenerPedidoPorMesa = async (req, res = response) => {
   const id = req.params.id_mesa;
   const idInt = parseInt(id);
