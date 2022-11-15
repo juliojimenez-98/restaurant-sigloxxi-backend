@@ -2,6 +2,7 @@ const { DataTypes } = require("sequelize");
 const dbConnection = require("../database/config");
 const Ingredientes = require("./ingredientes");
 const Proveedor = require("./proveedor");
+const Bebestible = require("./bebestibles");
 
 const Pedido_ing = dbConnection.dbConnection.define(
   "pedido_ing",
@@ -40,7 +41,15 @@ const Pedido_ing = dbConnection.dbConnection.define(
         model: "Ingredientes",
         key: "id_ing",
       },
-      allowNull: false,
+      allowNull: true,
+    },
+    id_bebida: {
+      type: DataTypes.INTEGER,
+      references: {
+        model: "Bebestibles",
+        key: "id_bebida",
+      },
+      allowNull: true,
     },
   },
   {
@@ -53,5 +62,8 @@ Pedido_ing.belongsTo(Proveedor, { foreignKey: "id_proveedor" });
 
 Ingredientes.hasOne(Pedido_ing, { foreignKey: "id_ing", as: "ingrediente" });
 Pedido_ing.belongsTo(Ingredientes, { foreignKey: "id_ing" });
+
+Bebestible.hasOne(Pedido_ing, {foreignKey: "id_bebida"});
+Pedido_ing.belongsTo(Bebestible, {foreignKey: "id_bebida"});
 
 module.exports = Pedido_ing;
