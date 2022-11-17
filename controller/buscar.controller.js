@@ -14,6 +14,7 @@ const Recibo_pedido = require("../models/recibo_pedido");
 const Reserva = require("../models/reserva");
 const Rol = require("../models/rol");
 const Venta = require("../models/venta");
+const Proveedor = require("../models/proveedor");
 
 const tablasExistentes = [
   "mesas",
@@ -240,6 +241,21 @@ const buscarVentas = async (termino = "", res = response) => {
   });
 };
 
+const buscarProveedores = async (termino = "", res = response) => {
+  const proveedores = await Proveedor.findAll({
+    where: {
+      [Op.or]: [
+        {nombre: { [Op.like]: "%" + termino + "%" }},
+        {email: { [Op.like]: "%" + termino + "%" }},
+      ],
+    },
+  });
+
+  res.json({
+    result: proveedores,
+  });
+};
+
 const buscar = (req, res = response) => {
   const { tabla, termino } = req.params;
 
@@ -290,6 +306,9 @@ const buscar = (req, res = response) => {
         break;
     case "roles":
         buscarRoles(termino, res);
+        break;
+    case "proveedores":
+        buscarProveedores(termino, res);
         break;
     default:
       res.status(500).json({
