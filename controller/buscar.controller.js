@@ -81,8 +81,11 @@ const buscarMesas = async (termino = "", res = response) => {
 
 const buscarPlatosPorTipo = async (termino = "", res = response) => {
   const mesas = await Plato.findAll({
-    where: {
-      tipo_plato: { [Op.like]: "%" + termino + "%" },
+    include: {
+      model: Receta,
+      where: {
+        nombre_prep: { [Op.like]: "%" + termino + "%" },
+      },
     },
   });
 
@@ -95,8 +98,8 @@ const buscarBebestibles = async (termino = "", res = response) => {
   const bebestibles = await Bebestible.findAll({
     where: {
       [Op.or]: [
-        {nombre: { [Op.like]: "%" + termino + "%"} },
-        {stock: { [Op.like]: "%" + termino + "%"} },
+        { nombre: { [Op.like]: "%" + termino + "%" } },
+        { stock: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -125,8 +128,8 @@ const buscarMedios = async (termino = "", res = response) => {
   const medio_pagos = await Medio_pago.findAll({
     where: {
       [Op.or]: [
-        {tipo_pago: { [Op.like]: "%" + termino + "%" }},
-        {banco: { [Op.like]: "%" + termino + "%" }},
+        { tipo_pago: { [Op.like]: "%" + termino + "%" } },
+        { banco: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -140,8 +143,8 @@ const buscarPedidosIngredientes = async (termino = "", res = response) => {
   const pedidos_ingredientes = await Pedido_ingrediente.findAll({
     where: {
       [Op.or]: [
-        {estado: { [Op.like]: "%" + termino + "%" } },
-        {id_pedido: { [Op.like]: "%" + termino + "%" } },
+        { estado: { [Op.like]: "%" + termino + "%" } },
+        { id_pedido: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -155,8 +158,8 @@ const buscarPedidosClientes = async (termino = "", res = response) => {
   const pedidos_clientes = await Pedido_cliente.findAll({
     where: {
       [Op.or]: [
-        {tiempo_espera: { [Op.like]: "%" + termino + "%" } },
-        {id_orden: { [Op.like]: "%" + termino + "%" } }, 
+        { tiempo_espera: { [Op.like]: "%" + termino + "%" } },
+        { id_orden: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -170,8 +173,8 @@ const buscarRecetas = async (termino = "", res = response) => {
   const recetas = await Receta.findAll({
     where: {
       [Op.or]: [
-        {nombre_prep: { [Op.like]: "%" + termino + "%" } },
-        {prep: { [Op.like]: "%" + termino + "%" } }, 
+        { nombre_prep: { [Op.like]: "%" + termino + "%" } },
+        { prep: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -185,8 +188,8 @@ const buscarRecibosPedidos = async (termino = "", res = response) => {
   const recibos_pedidos = await Recibo_pedido.findAll({
     where: {
       [Op.or]: [
-        {estado: { [Op.like]: "%" + termino + "%" } },
-        {id_recibo: { [Op.like]: "%" + termino + "%" } }, 
+        { estado: { [Op.like]: "%" + termino + "%" } },
+        { id_recibo: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -200,8 +203,8 @@ const buscarReservas = async (termino = "", res = response) => {
   const reservas = await Reserva.findAll({
     where: {
       [Op.or]: [
-        {id_reserva: { [Op.like]: "%" + termino + "%" } },
-        {hora_reserva: { [Op.like]: "%" + termino + "%" } }, 
+        { id_reserva: { [Op.like]: "%" + termino + "%" } },
+        { hora_reserva: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -215,8 +218,8 @@ const buscarRoles = async (termino = "", res = response) => {
   const roles = await Rol.findAll({
     where: {
       [Op.or]: [
-        {nom_rol: { [Op.like]: "%" + termino + "%" } },
-        {id_rol: { [Op.like]: "%" + termino + "%" } }, 
+        { nom_rol: { [Op.like]: "%" + termino + "%" } },
+        { id_rol: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -230,8 +233,8 @@ const buscarVentas = async (termino = "", res = response) => {
   const ventas = await Venta.findAll({
     where: {
       [Op.or]: [
-        {desc_venta: { [Op.like]: "%" + termino + "%" } },
-        {monto: { [Op.like]: "%" + termino + "%" } }, 
+        { desc_venta: { [Op.like]: "%" + termino + "%" } },
+        { monto: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -245,8 +248,8 @@ const buscarProveedores = async (termino = "", res = response) => {
   const proveedores = await Proveedor.findAll({
     where: {
       [Op.or]: [
-        {nombre: { [Op.like]: "%" + termino + "%" }},
-        {email: { [Op.like]: "%" + termino + "%" }},
+        { nombre: { [Op.like]: "%" + termino + "%" } },
+        { email: { [Op.like]: "%" + termino + "%" } },
       ],
     },
   });
@@ -302,14 +305,14 @@ const buscar = (req, res = response) => {
       buscarReservas(termino, res);
       break;
     case "ventas":
-        buscarVentas(termino, res);
-        break;
+      buscarVentas(termino, res);
+      break;
     case "roles":
-        buscarRoles(termino, res);
-        break;
+      buscarRoles(termino, res);
+      break;
     case "proveedores":
-        buscarProveedores(termino, res);
-        break;
+      buscarProveedores(termino, res);
+      break;
     default:
       res.status(500).json({
         msg: "No hizo la busqueda de coleccion",
