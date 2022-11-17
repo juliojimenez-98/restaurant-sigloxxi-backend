@@ -1,5 +1,5 @@
 const { response } = require("express");
-const { Op } = require("sequelize");
+const { Op, json } = require("sequelize");
 const Bebestibles = require("../models/bebestibles");
 const PedidoCliente = require("../models/pedidoCliente");
 const Plato = require("../models/plato");
@@ -16,34 +16,37 @@ const crearPedidoCliente = async (req, res = response) => {
       });
     }
 
-    if (platos) {
-      var platosArray = await Plato.findAll({
-        where: { id_plato: { [Op.in]: platos } },
-        include: Receta,
-      });
-    }
-
-    var totalBebestibles = 0;
-    if (bebestibles) {
-      bebestiblesArray.forEach(function (a) {
-        totalBebestibles += a.precio;
-      });
-    }
     var totalPlatos = 0;
-    platosArray.forEach(function (a) {
-      totalPlatos += a.precio;
-    });
+    if (platos) {
+      platos.forEach(function (a) {
+        totalPlatos += a[0].precio * a[1];
+      });
+    }
+    console.log(totalPlatos)
 
-    var totalFinal = totalBebestibles + totalPlatos;
+
+
+    // var totalBebestibles = 0;
+    // if (bebestibles) {
+    //   bebestiblesArray.forEach(function (a) {
+    //     totalBebestibles += a.precio;
+    //   });
+    // }
+    // var totalPlatos = 0;
+    // platosArray.forEach(function (a) {
+    //   totalPlatos += a.precio;
+    // });
+
+    // var totalFinal = totalBebestibles + totalPlatos;
 
     const pedidoCliente = new PedidoCliente({
-      platos: platosArray,
+      platos,
       bebestibles: bebestiblesArray,
       tiempo_espera,
       cant,
+      total:totalPlatos,
       id_mesa,
       estado,
-      total: totalFinal,
     });
 
     await pedidoCliente.save();
@@ -56,6 +59,11 @@ const crearPedidoCliente = async (req, res = response) => {
     console.log(error);
   }
 };
+
+const obtenerPedidos= async (req, res = response) => {
+  const pedidos = await PedidoCliente.findAll();
+  res.json({ pedidos });
+}
 
 const obtenerPedidoPorMesa = async (req, res = response) => {
   const id = req.params.id_mesa;
@@ -75,4 +83,5 @@ const obtenerPedidoPorMesa = async (req, res = response) => {
 module.exports = {
   crearPedidoCliente,
   obtenerPedidoPorMesa,
+  obtenerPedidos,
 };

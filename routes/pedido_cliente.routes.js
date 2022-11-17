@@ -3,6 +3,7 @@ const { check } = require("express-validator");
 const {
   crearPedidoCliente,
   obtenerPedidoPorMesa,
+  obtenerPedidos,
 } = require("../controller/pedido_cliente.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -26,5 +27,6 @@ router.post(
 );
 
 router.get("/:id_mesa", obtenerPedidoPorMesa);
+router.get("/pedidos/comanda", obtenerPedidos);
 
 module.exports = router;
