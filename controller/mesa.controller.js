@@ -64,6 +64,22 @@ const actualizarMesa = async (req, res = response) => {
   });
 };
 
+const actualizarEstadoMesa = async (req, res = response) => {
+  const id = req.params.id;
+  const estado = req.params.estado;
+  const estadoInt =parseInt(estado);
+  const idInt = parseInt(id);
+  const actEstadoMesa = await Mesa.update(
+    { disponibilidad: estadoInt },
+    {
+      where: {
+        id_mesa: idInt,
+      },
+    }
+  );
+  res.status(201).json({msg:"ok", actEstadoMesa})
+};
+
 const eliminarMesa = async (req, res = response) => {
   const id = req.params.id;
   const idInt = parseInt(id);
@@ -78,4 +94,5 @@ module.exports = {
   obtenerMesas,
   actualizarMesa,
   eliminarMesa,
+  actualizarEstadoMesa,
 };
