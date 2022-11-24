@@ -5,6 +5,7 @@ const {
   obtenerMesas,
   actualizarMesa,
   eliminarMesa,
+  actualizarEstadoMesa,
 } = require("../controller/mesa.controller");
 const { validarCampos } = require("../middlewares/validar-campos");
 
@@ -25,5 +26,6 @@ router.post(
 );
 router.put("/mesa/:id", actualizarMesa);
 router.delete("/mesa/:id", eliminarMesa);
+router.put("/mesa/:id/:estado", actualizarEstadoMesa);
 
 module.exports = router;
