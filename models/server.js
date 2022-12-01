@@ -7,7 +7,7 @@ const fileUpload = require("express-fileupload");
 class Server {
   constructor() {
     this.app = express();
-    this.port = process.env.PORT||"/.netlify/.functions";
+    this.port = process.env.PORT;
 
     this.authPath = "/api";
     this.buscar = "/api/buscar";
