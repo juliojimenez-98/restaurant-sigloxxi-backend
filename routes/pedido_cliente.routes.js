@@ -13,7 +13,6 @@ const router = Router();
 router.post(
   "/pedido_cliente",
   [
-    check("platos", "La preparación es obligatoria").not().isEmpty(),
     check("id_mesa", "El Nombre de la preparacion es obligatorio")
       .not()
       .isEmpty(),
