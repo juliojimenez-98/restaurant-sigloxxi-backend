@@ -10,41 +10,29 @@ const crearPedidoCliente = async (req, res = response) => {
     const { tiempo_espera, cant, platos, bebestibles, id_mesa, estado } =
       req.body;
 
-    if (bebestibles) {
-      var bebestiblesArray = await Bebestibles.findAll({
-        where: { id_bebida: bebestibles },
-      });
-    }
-
     var totalPlatos = 0;
     if (platos) {
       platos.forEach(function (a) {
         totalPlatos += a[0].precio * a[1];
       });
     }
-    console.log(totalPlatos)
+    console.log(totalPlatos);
 
+    var totalBebestibles = 0;
+    if (bebestibles) {
+      bebestibles.forEach(function (a) {
+        totalPlatos += a[0].precio * a[1];
+      });
+    }
 
-
-    // var totalBebestibles = 0;
-    // if (bebestibles) {
-    //   bebestiblesArray.forEach(function (a) {
-    //     totalBebestibles += a.precio;
-    //   });
-    // }
-    // var totalPlatos = 0;
-    // platosArray.forEach(function (a) {
-    //   totalPlatos += a.precio;
-    // });
-
-    // var totalFinal = totalBebestibles + totalPlatos;
+    var totalFinal = totalBebestibles + totalPlatos;
 
     const pedidoCliente = new PedidoCliente({
       platos,
-      bebestibles: bebestiblesArray,
+      bebestibles,
       tiempo_espera,
       cant,
-      total:totalPlatos,
+      total: totalFinal,
       id_mesa,
       estado,
     });
@@ -60,10 +48,10 @@ const crearPedidoCliente = async (req, res = response) => {
   }
 };
 
-const obtenerPedidos= async (req, res = response) => {
+const obtenerPedidos = async (req, res = response) => {
   const pedidos = await PedidoCliente.findAll();
   res.json({ pedidos });
-}
+};
 
 const obtenerPedidoPorMesa = async (req, res = response) => {
   const id = req.params.id_mesa;
