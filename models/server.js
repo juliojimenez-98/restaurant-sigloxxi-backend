@@ -21,6 +21,7 @@ class Server {
     this.proveedoresPath = "/api/proveedores";
     this.pedido_ingPath = "/api/pedido-ingredientes";
     this.uploadsPath = "/api/uploads";
+    this.webpay = "/api";
 
     this.pedido_clientePath = "/api/pedidos-clientes";
     this.ventaPath = "/api/ventas";
@@ -84,6 +85,10 @@ class Server {
     this.app.use(this.ventaPath, require("../routes/venta.routes"));
     this.app.use(this.bebestiblePath, require("../routes/bebestibles.routes"));
     this.app.use(this.recibo_pedidoPath, require("../routes/recibo_pedido.routes"));
+    this.app.use(
+      this.webpay,
+      require("../routes/webpay.routes")
+    );
   }
 
   listen() {
