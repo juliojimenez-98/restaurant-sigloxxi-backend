@@ -3,6 +3,7 @@ const Recibo_pedido = require("../models/recibo_pedido");
 const Pedido_ing = require("../models/pedido_ing");
 const Ingredientes = require("../models/ingredientes");
 const Bebestibles = require("../models/bebestibles");
+const Proveedor = require("../models/proveedor");
 
 const crearRecibo = async (req, res = response) => {
   const { body } = req;
@@ -90,6 +91,9 @@ const obtenerRecibos = async (req, res = response) => {
           },
           {
             model: Bebestibles,
+          },
+          {
+            model: Proveedor,
           },
         ],
       },
