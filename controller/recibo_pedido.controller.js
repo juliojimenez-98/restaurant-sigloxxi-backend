@@ -3,6 +3,7 @@ const Recibo_pedido = require("../models/recibo_pedido");
 const Pedido_ing = require("../models/pedido_ing");
 const Ingredientes = require("../models/ingredientes");
 const Bebestibles = require("../models/bebestibles");
+const Proveedor = require("../models/proveedor");
 
 const crearRecibo = async (req, res = response) => {
   const { body } = req;
@@ -32,35 +33,33 @@ const crearRecibo = async (req, res = response) => {
         msg: `El pedido con id: ${body.id_pedido} ya está ingresado`,
       });
     }
-    
+
     const recibo_pedido = new Recibo_pedido(body);
 
     await recibo_pedido.save();
-    
-    if (recibo_pedido.estado === 1 || recibo_pedido.estado === 2){
-        if (id_pedidoExists.id_ing !== null){
+
+    if (recibo_pedido.estado === 1 || recibo_pedido.estado === 2) {
+      if (id_pedidoExists.id_ing !== null) {
         const actStockIng = await Ingredientes.update(
           { stock: id_pedidoExists.ingrediente.stock + recibo_pedido.cantidad },
           {
             where: {
               id_ing: id_pedidoExists.id_ing,
             },
-
           }
         );
-        } 
-        
-        if(id_pedidoExists.id_bebida !== null) {
-          const actStockIng = await Bebestibles.update(
-               { stock: id_pedidoExists.bebestible.stock + recibo_pedido.cantidad },
-               {
-                 where: {
-                   id_bebida: id_pedidoExists.id_bebida,
-                 },
-                 
-               }
-             );
-        }
+      }
+
+      if (id_pedidoExists.id_bebida !== null) {
+        const actStockIng = await Bebestibles.update(
+          { stock: id_pedidoExists.bebestible.stock + recibo_pedido.cantidad },
+          {
+            where: {
+              id_bebida: id_pedidoExists.id_bebida,
+            },
+          }
+        );
+      }
     }
 
     const actEstadoPedido = await id_pedidoExists.update(
@@ -71,8 +70,6 @@ const crearRecibo = async (req, res = response) => {
         },
       }
     );
-
-
 
     res.status(200).json({ msg: "ok", recibo_pedido });
   } catch (error) {
@@ -85,7 +82,22 @@ const crearRecibo = async (req, res = response) => {
 
 const obtenerRecibos = async (req, res = response) => {
   const recibo_pedidos = await Recibo_pedido.findAll({
-    include: Pedido_ing,
+    include: [
+      {
+        model: Pedido_ing,
+        include: [
+          {
+            model: Ingredientes,
+          },
+          {
+            model: Bebestibles,
+          },
+          {
+            model: Proveedor,
+          },
+        ],
+      },
+    ],
   });
   res.json({ recibo_pedidos });
 };
