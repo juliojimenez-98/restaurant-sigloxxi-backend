@@ -17,7 +17,7 @@ router.put(
   "/:tabla/:id",
   [
     validarArchivoASubir,
-    (check("tabla").custom((c) => tablasPermitidas(c, ["plato"])),
+    (check("tabla").custom((c) => tablasPermitidas(c, ["plato","bebestibles"])),
     validarCampos),
   ],
   actualizarImagenCloud
@@ -25,7 +25,7 @@ router.put(
 router.get(
   "/:tabla/:id",
   [
-    (check("tabla").custom((c) => tablasPermitidas(c, ["plato"])),
+    (check("tabla").custom((c) => tablasPermitidas(c, ["plato","bebestibles"])),
     validarCampos),
   ],
   mostrarImagen

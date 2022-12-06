@@ -15,6 +15,9 @@ const Bebestibles = dbConnection.dbConnection.define(
     stock_cri: { type: DataTypes.INTEGER, allowNull: false },
     fecha_vencimiento: { type: DataTypes.DATE, allowNull: false },
     unidad: { type: DataTypes.STRING, allowNull: false },
+    img: {
+      type: DataTypes.STRING,
+    },
   },
   {
     freezeTableName: true,

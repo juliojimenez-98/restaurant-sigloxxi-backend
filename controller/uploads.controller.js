@@ -9,6 +9,7 @@ cloudinary.config({
 const { response } = require("express");
 const { subirArchivo } = require("../helpers/subir-archivo");
 const Plato = require("../models/plato");
+const Bebestibles = require("../models/bebestibles");
 
 const cargarArchivos = async (req, res = response) => {
   if (!req.files || Object.keys(req.files).length === 0 || !req.files.archivo) {
@@ -86,8 +87,22 @@ const actualizarImagenCloud = async (req, res = response) => {
       }
       break;
 
+    case "bebestibles":
+      modelo = await Bebestibles.findOne({
+        where: {
+          id_bebida: id,
+        },
+      });
+
+      if (!modelo) {
+        return res
+          .status(400)
+          .json({ msg: `No existe un bebestible con el id ${id}` });
+      }
+      break;
+
     default:
-      return res.status(500).json({ msg: "Se me olvido validar esto" });
+      return res.status(500).json({ msg: "Error" });
   }
 
   //limpiar imagenes previas
@@ -131,6 +146,20 @@ const mostrarImagen = async (req, res = response) => {
         return res
           .status(400)
           .json({ msg: `No existe un plato con el id ${id}` });
+      }
+      break;
+
+    case "bebestibles":
+      modelo = await Bebestibles.findOne({
+        where: {
+          id_bebida: id,
+        },
+      });
+
+      if (!modelo) {
+        return res
+          .status(400)
+          .json({ msg: `No existe un bebestible con el id ${id}` });
       }
       break;
 
