@@ -4,6 +4,7 @@ const {
   crearPedidoCliente,
   obtenerPedidoPorMesa,
   obtenerPedidos,
+  actualizarPedido,
 } = require("../controller/pedido_cliente.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -26,6 +27,7 @@ router.post(
 );
 
 router.get("/:id_mesa", obtenerPedidoPorMesa);
+router.put("/pedido_cliente/:id", actualizarPedido);
 router.get("/pedidos/comanda", obtenerPedidos);
 
 module.exports = router;

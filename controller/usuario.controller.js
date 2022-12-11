@@ -200,7 +200,7 @@ const eliminarUsuario = async (req, res = response) => {
   const idInt = parseInt(id);
   const usuario = await Usuario.destroy({ where: { id_user: idInt } });
   res.status(200).send({
-    msg: `La mesa fue eliminada con exito`,
+    msg: `El usuario fue eliminado con exito`,
     usuario,
   });
 };
