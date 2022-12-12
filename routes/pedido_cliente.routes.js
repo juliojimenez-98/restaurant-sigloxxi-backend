@@ -27,6 +27,7 @@ router.post(
 );
 
 router.get("/:id_mesa", obtenerPedidoPorMesa);
+router.get("pedido-cliente/:id", obtenerPedidoPorMesa);
 router.put("/pedido_cliente/:id", actualizarPedido);
 router.get("/pedidos/comanda", obtenerPedidos);
 

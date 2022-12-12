@@ -142,9 +142,26 @@ const obtenerPedidoPorMesa = async (req, res = response) => {
   });
 };
 
+const obtenerPedidoPorId = async (req, res = response) => {
+  const id = req.params.id;
+  const idInt = parseInt(id);
+
+  const findPedido = await PedidoCliente.findOne({
+    where: {
+       id_orden: idInt 
+    },
+  });
+
+  res.status(200).json({
+    findPedido,
+  });
+};
+
+
 module.exports = {
   crearPedidoCliente,
   obtenerPedidoPorMesa,
   obtenerPedidos,
-  actualizarPedido
+  actualizarPedido,
+  obtenerPedidoPorId,
 };
