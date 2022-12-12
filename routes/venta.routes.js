@@ -5,6 +5,7 @@ const {
   eliminarVenta,
   obtenerVentas,
   actualizarVenta,
+  obtenerTotalVentas,
 } = require("../controller/venta.controller");
 
 const { validarCampos } = require("../middlewares/validar-campos");
@@ -14,6 +15,7 @@ const router = Router();
 
 //Obtener todos los proveedores
 router.get("/ventas", obtenerVentas);
+router.get("/total-ventas", obtenerTotalVentas);
 
 //Crear Proveedor
 router.post(
