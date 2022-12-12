@@ -124,21 +124,6 @@ const buscarClientes = async (termino = "", res = response) => {
   });
 };
 
-const buscarMedios = async (termino = "", res = response) => {
-  const medio_pagos = await Medio_pago.findAll({
-    where: {
-      [Op.or]: [
-        { tipo_pago: { [Op.like]: "%" + termino + "%" } },
-        { banco: { [Op.like]: "%" + termino + "%" } },
-      ],
-    },
-  });
-
-  res.json({
-    results: medio_pagos,
-  });
-};
-
 const buscarPedidosIngredientes = async (termino = "", res = response) => {
   const pedidos_ingredientes = await Pedido_ingrediente.findAll({
     where: {
